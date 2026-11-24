@@ -1,9 +1,0 @@
-{
-  "name": "sheerpower",
-  "displayName": "Sheerpower",
-  "version": "0.1.11",
-  "description": "Write, compile and fix Sheerpower 4GL programs: the language rules, a verified catalog of every statement and function, and a compile check after every edit of a .spsrc or .spinc file.",
-  "author": { "name": "Sheerpower", "url": "https://www.sp4gl.com/" },
-  "homepage": "https://www.sp4gl.com/",
-  "keywords": ["sheerpower", "sp4gl", "4gl", "spsrc"]
-}

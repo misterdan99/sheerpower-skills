@@ -1,0 +1,881 @@
+# Sheerpower catalog index: one line a name
+
+Columns: **name** | the form to write | what it does | where the tutorial teaches it (page:line) | a verified
+example (an id in examples_verified.txt -- grep `==== <id>`) | PROOF | `!` = traps.md has an entry for it.
+Wrong forms and silent traps: traps.md.  Tasks: task_index.md.
+
+PROOF -- how far to trust the line:
+`R` ran: a verified example shows its real output | `P`, `S`, `W` the maker's own tests run it on every engine
+build (regression pins, the test suite, web tests) | `s` seen in a program nobody is known to run |
+`N` a screen snapshot shows it | `C` compiles, never run | `X` cannot be verified in a test |
+`-` NO PROOF: the tutorial's word only -- write a small probe program and run it before relying on it.
+
+## Statements
+
+- **!** | `! This is another single-line comment` | A single-line comment using an exclamation mark, ignored by Sheerpower. | lesson2:55696 | x1022 | RPSW
+- ***=** | `price *= 1 + tax_rate` | x *= e is x = x * (e): multiplies by the right side, worked out first as a whole (price *= 1 + tax_rate is ... | operators:6532 | x0114 | RP
+- **++** | `counter++ (a dynamic variable)` | ++ adds 1 to anything that holds a number: a variable, an array element (grid(row, col)++), a cluster field ... | operators:6502 | x0113 | RPSW !
+- **+=** | `total += price` | Compound assignment: total += price is total = total + (price), the right side worked out first, as a whole ... | operators:6532 | x0114 | RP !
+- **-=** | `count -= 1` | x -= e is x = x - (e): subtracts the right side, worked out first as a whole. Compound assignment, as += is ... | operators:6532 | - | P
+- **->field** | `for each payroll / print ->name$; ->salary / next payroll` | Inside a collect cluster, for each or add cluster block, a field written with no cluster name is a field of ... | cluster_arrays:19179 | x0423 | RPS
+- **//** | `// This is a single-line comment` | A single-line comment, ignored by Sheerpower. | lesson2:55695 | x0736 | RPSW
+- **/=** | `share /= 2` | x /= e is x = x / (e): divides by the right side, worked out first as a whole. Compound assignment, as += is. | operators:6532 | - | P
+- **=** | `=expr` | Console shorthand: a line beginning with = prints the expression; typing the expression alone on a line does ... | After Sheerpower is installed:48786 | x1062 | RPSW
+- **>>** | `>> mid(text$, starting, _integer)` | Tutorial NOTATION, not a statement: a line written >> expr shows what the console prints for expr. At the >>> ... | regular_expressions:30602 | - | X
+- **?** | `?name` | Inspects a variable, array or cluster at the console: prints its typeof$ description (type, bounds, size or ... | After Sheerpower is installed:48807 | - | P
+- **[ ]** | `x = [a, b, c] / rates = [2 of base, base * 2]` | An array written out: square brackets where a value starts make an array value. The items are any ... | arrays:8771 | - | -
+- **[]** | `[]` | Switches the console into source-entry mode: every line typed (including multi-line constructs) is appended ... | After Sheerpower is installed:49856 | - | P
+- **\** | `a = 355 \ b = 113` | Statement separator: places two statements on one source line, behaving exactly as if each were on its own ... | program_structure:2365 | x0009 | RPSW
+- **\ (statement separator)** | `who$ = 'Ann' \ points = 12` | Separates two statements on one line. | more_formatted_strings:31572 | x0631 | RPSW
+- **^=** | `side ^= 2` | x ^= e is x = x ^ (e): raises to the power of the right side, worked out first as a whole. Compound ... | operators:6532 | - | P
+- **abbreviation define** | `name. = expansion` | Defines (or redefines) your own abbreviation at the prompt, kept for good; name. = with nothing removes it; a ... | After Sheerpower is installed:49359 | - | P
+- **abbreviation expand** | `name. (then Enter or TAB)` | Typing an abbreviation with its dot and Enter puts its expansion on the next line ready to run; TAB expands ... | After Sheerpower is installed:49297 | - | P
+- **abbreviation star** | `*name. = expansion / *name.` | Defines a starred abbreviation, or stars/un-stars an existing one, so it is listed first in the abbreviation ... | After Sheerpower is installed:49377 | - | P
+- **abort** | `abort 99` | Stops the program and exits with the given exit code (zero means success), letting a program report which ... | vibe_programming:61552 | x1364 | RPSW
+- **add chart** | `add chart: x_axis str$(n), y_axis str$(freq1(n)), value ..., label ...` | Adds a data point with x-axis and y-axis values, value, label, colors, dataset grouping, percentage, width ... | charts:16893 | - | PW
+- **add cluster** | `add cluster inventory ... end add` | Adds a record (row) to the cluster array; the new record becomes the current row. | cluster_arrays:18161 | x0423 | RPSW !
+- **add table** | `add table customers ... end add` | Adds a new record to a table, with field assignments inside the block; without the conditional option a ... | database_practical:42919 | - | PSW
+- **add table: conditional** | `add table customers: conditional ... end add` | Adds a record, but if a key that refuses duplicates already belongs to a record, that existing record becomes ... | database_practical:42851 | - | P
+- **append** | `append` | Incremental query composition that adds to an extraction without rescanning datasets (with reextract). | appendix_main_features:1773 | u1414 | RPSW
+- **array append (*)** | `shopping_list$(*) = "Milk"` | Assigning to (*) appends the value to the end of the array (the next unused slot on any array); reading x(*) ... | arrays:8697 | - | P
+- **array assignment (array expression)** | `due = prices - discount` | Assigns a whole array expression (arrays, numbers, + - * / ^, unary minus, parentheses) computed element by ... | array_math:9870 | - | P
+- **array assignment (masked store)** | `prices(prices < 0) = 0` | A 0/1 mask on the left selects the elements to store into; every element whose mask element is 1 receives the ... | array_math:11543 | - | P
+- **array assignment (new name)** | `evens = seq(2, 10, 2)` | A name the program has not used yet becomes an expandable array when the first thing it is given is a whole ... | arrays:8886 | - | P
+- **array assignment (scatter)** | `x[y] = w / x[y] = value` | Writes w's elements (or one value) to the positions listed in index array y. | arrays:9586 | - | P
+- **array assignment (slice store)** | `v[2:3] = 0 / v[2:3] = w` | A slice on the left of = writes through: one value fills the run, an array pairs into it (counts must agree ... | array_math:11425 | - | P
+- **array assignment (whole array)** | `x = y / z = x * 100` | Copies a whole array, or assigns an element-wise array expression to an array. | arrays:9670 | - | P
+- **ask # current** | `ask #ch: current bookmark$` | Remembers the record just read as a bookmark (its byte offset, 8 binary bytes). | data_files:15494 | - | PS
+- **ask # data** | `ask #data_ch: data mydata$` | Reads all data currently stored in a data:// memory file into a string. | data_files:16025 | x0357 | RPS
+- **ask #, symbol** | `ask #tcp_ch, symbol 'data': value rec$` | Reads the received data from the network channel into a variable. | tcp_udp_protocols:16754 | - | PSW
+- **ask #channel, header: value** | `ask #ch, header 'Content-Type': value v$` | One reply header's value by name, case-blind, trimmed; _integer reads 1 when the header was there and 0 when ... | data_files:15774 | - | P
+- **ask #channel: headers** | `ask #ch: headers all$` | After a successful URL open: every reply header as the server sent it, one per line, the status line first ... | data_files:15772 | u1410 | RP
+- **ask #channel: status** | `ask #ch: status code` | After a successful URL open: the HTTP status the server answered with (200, 201, 204 ...); 0 for a channel ... | data_files:15770 | - | P
+- **ask cluster headers** | `ask cluster clustername: headers x$` | Retrieves the cluster's field names (headers) as a comma-separated string into x$. | cluster_spreadsheets:22641 | u1410 | R
+- **ask session** | `ask session 'name': cookies jar$` | Reads a session back: cookies jar$ (name=value; name2=value2, the Cookie header text), headers h$, base b$ or ... | data_files:15824 | - | P
+- **ask system program** | `ask system: program var$` | Gets the running program's file name. | pass:37321 | - | PSW
+- **ask system, global** | `ask system, global 'work_id': value this_work_id$` | Retrieves the value stored in a shared global variable; an exclusive lock on the symbol is held during the ... | IPC-advanced:59890 | x1237 | RPSW
+- **ask system, global increment** | `ask system, global 'synch_counter': increment, value my_counter$` | All-or-nothing increment: each process receives a unique incremented value (the first gets "1"), which can be ... | IPC-advanced:59897 | x1238 | RPW
+- **ask system, logical** | `ask system, logical "project_path": value path$` | Retrieves a logical's value into a variable. | Symbolic Value Pairs-advanced:59820 | - | PS
+- **ask system, pass** | `ask system, pass: value status` | Different from the other VALUE forms: it gives the status of the last PASS command, and takes a number. | ask_set_system:47343 | - | PS
+- **ask system, symbol** | `ask system, symbol "last_backup": value backup_date$` | Retrieves a symbol value into a variable. | Symbolic Value Pairs-advanced:59790 | - | PS
+- **ask system, symbol 'dns:': value** | `ask system, symbol 'dns:www.cnn.com': value x$` | Returns the DNS translation of an IP address or URL into a string variable ('dns:0.0.0.0' gives the computer ... | ask_set_system:47420 | - | PS
+- **ask system, symbol 'os:': value** | `ask system, symbol 'os:path': value mypath$` | Reads an operating-system symbol value; on Windows this maps to the command window environment (e.g. PATH). | ask_set_system:47290 | - | PS
+- **ask system: clipboard** | `ask system: clipboard str_var` | Gets the clipboard text. | ask_set_system:47373 | - | S
+- **ask system: comment** | `ask system: comment str_var` | Returns the Sheerpower operating-system comment for the process. | ask_set_system:47204 | - | S
+- **ask system: directory** | `ask system: directory str_var` | Returns the current default device and directory. | ask_set_system:47248 | - | PS
+- **ask system: kernel** | `ask system: kernel str_var` | Returns the operating system Sheerpower runs on: WINDOWS or LINUX (MACOS is kept for a future version) ... | ask_set_system:47153 | x1016 | RPS
+- **ask system: mode** | `ask system: mode str_var` | Returns the process mode: INTERACTIVE, BATCH, NETWORK or OTHER. | ask_set_system:47098 | - | PS
+- **ask system: parameter** | `ask system: parameter str_var` | Returns the command-line parameters (the part after the program name) into a string variable; up to 8 ... | ask_set_system:46930 | - | W
+- **ask system: pid** | `ask system: pid str_var` | Returns the system process ID (PID) of the current process into a string variable, e.g. for logs and audit ... | ask_set_system:46970 | - | PS
+- **ask system: process** | `ask system: process str_var` | Returns the current operating-system process name into a string variable. | ask_set_system:46995 | - | PS
+- **ask system: program** | `ask system: program str_var` | Returns the full file specification of the running program, e.g. so it can check its own revision date and ... | ask_set_system:47040 | - | PSW
+- **ask system: rights** | `ask system: rights str_var` | Returns a comma-separated list of the rights explicitly granted to this process. | ask_set_system:47351 | - | S
+- **ask system: user** | `ask system: user str_var` | Returns the operating-system user name or ID for the current user. | ask_set_system:47179 | - | PSW
+- **ask table** | `ask table table_name: table_option variable / ask table table_name ...` | Retrieves information about an open table: table-level information or field-level metadata for a field given ... | db_utils:44073 | - | PSW
+- **ask table, field: attributes** | `ask table cl, field #i: attributes attributes$` | Returns how Sheerpower treats the field, such as NUM for number or UC for upper-case. | db_utils:44167 | - | SW
+- **ask table, field: changeable** | `ask table cl, field #i: changeable changeable` | Returns TRUE if the specified field can be changed, otherwise FALSE. | db_utils:44250 | - | S
+- **ask table, field: datatype** | `ask table cl, field #i: datatype datatype$` | Returns the field data type, such as CH for character or IN for integer. | db_utils:44158 | - | S
+- **ask table, field: description** | `ask table cl, field #i: description description$` | Returns the description for the specified field. | db_utils:44193 | - | PSW
+- **ask table, field: heading** | `ask table cl, field #i: heading heading$` | Returns the report column heading for the specified field. | db_utils:44209 | - | S
+- **ask table, field: help** | `ask table cl, field #i: help help_text$` | Returns the help text for the specified field. | db_utils:44233 | - | S
+- **ask table, field: keyed** | `ask table cl, field #i: keyed keyed` | Returns TRUE if the specified field is a key field, otherwise FALSE. | db_utils:44241 | - | SW
+- **ask table, field: length** | `ask table cl, field #i: length field_length` | Returns the length of the specified field. | db_utils:44177 | - | SW
+- **ask table, field: name** | `ask table cl, field #i: name field_name$` | Returns the name of the specified field, or an empty string if the field expression is invalid. | db_utils:44138 | - | SW
+- **ask table, field: number** | `ask table cl, field #i: number field_number` | Returns the field number of the specified field, or 0 if it does not exist (a simple way to validate a field ... | db_utils:44147 | - | S
+- **ask table, field: position** | `ask table cl, field #i: position position` | Returns the starting position of the specified field. | db_utils:44185 | - | S
+- **ask table, field: printmask** | `ask table cl, field #i: printmask printmask$` | Returns the print mask for the specified field. | db_utils:44217 | - | SW
+- **ask table, field: prompt** | `ask table cl, field #i: prompt prompt$` | Returns the prompt for the specified field. | db_utils:44201 | - | S
+- **ask table, field: screenmask** | `ask table cl, field #i: screenmask screenmask$` | Returns the screen mask for the specified field. | db_utils:44225 | - | S
+- **ask table: count** | `ask table customers: count how_many` | Stores the number of records in the table in a variable. | database_practical:42908 | - | PSW
+- **ask table: fields** | `ask table cl: fields num_fields` | Returns the number of fields in the table. | db_utils:44109 | - | SW
+- **ask table: id** | `ask table cl: id cl_id$` | Returns a table ID string that can later be used with set table table_name: id. | db_utils:44117 | - | SW
+- **ask window: typeahead** | `ask window: typeahead left$` | What is still waiting in the type-ahead buffer; set window: typeahead '' empties it. | making_console_applications:51906 | - | PS
+- **assert** | `assert condition, message$` | You tell assert what is expected, and it produces an exception if the assertion fails. | unit_testing:40194 | u1411 | RPS
+- **assignment** | `name$ = "Sally"` | Assigning a string reuses the target's existing buffer without allocating new memory; a$ = b$ is reduced to ... | philosophy:65802 | u1457 | RPW
+- **binary literal** | `0b1010` | A whole number written in binary: 0b, then the digits 0 and 1, one _ allowed between two digits ... | operators:6624 | x0119 | RP
+- **break** | `break` | A source breakpoint: under debug on the program stops there and drops into the console; in a normal run it ... | profiling:40793 | - | PW
+- **build** | `build 'name'` | Compiles the console program and deploys it as a .sprun image. [console command] | After Sheerpower is installed:49942 | x0249 | RPSW
+- **call** | `call "routine_name" (args)` | Calls and executes a global routine contained in a DLL (e.g. msvcrt.dll); the routine name is enclosed in ... | ext_calls:37002 | x0589 | PS !
+- **call by ref** | `call '_get_errno' (err_code% by ref)` | BY REF passes a variable by reference so the routine can write into it: an integer variable's address, or for ... | ext_calls:37020 | - | P
+- **call by value** | `call 'double pow' (base by value, power by value)` | BY VALUE passes a REAL as the C double itself -- how C's math routines take their arguments. | ext_calls:37074 | - | P
+- **call char*** | `call "char* routine" (args)` | Prefixing the routine name with char* calls a routine that returns a pointer to a null-terminated string ... | ext_calls:37040 | x0589 | PS
+- **call double** | `call 'double sqrt' (x by value)` | Prefixing the routine name with double calls a routine that returns a C double; afterwards _real holds the ... | ext_calls:37070 | - | P
+- **cancel extract** | `cancel extract` | Cancels the entire extract block without collecting any records. | database_practical:43019 | - | P
+- **case** | `case expr1, expr2` | A CASE may list several expressions separated by commas (case "DEL", "DELETE"). | conditionals:7465 | x0147 | RPSW
+- **case (compact)** | `case 1: print "One!"` | Compact single-statement form: a colon on the CASE line followed by one statement; functionally identical to ... | conditionals:7575 | x0147 | RPSW
+- **case (multiple values)** | `case exceptiontype("filenotfound"), exceptiontype("badfilename")` | Lists multiple exception types in a single CASE to handle similar exceptions together. | exceptions:46137 | x0147 | RPSW
+- **case else** | `case else` | The fallback branch of a select case; without it an unmatched value can fail at runtime. | ai_coding_guide:62365 | x0143 | RPSW
+- **case is** | `case is < 2000` | Handles exceptions that fall into numeric ranges by comparing the select value. | exceptions:46167 | x0243 | RPSW
+- **case to** | `case 2 to 6` | Matches a numeric or string range expr1 TO expr2 (case "b" to "e"). | conditionals:7467 | x0146 | RPW
+- **cause exception** | `CAUSE EXCEPTION exception_number` | Forces the given exception number (any integer expression) to occur as though the runtime system had ... | exceptions:46208 | - | PS
+- **clear** | `clear` | Wipes the whole console, messages included. | making_console_applications:52077 | - | PSW
+- **clear area** | `clear area [box] [, attributes:] top, left, bottom, right` | Wipes one rectangle of the 30 x 80 screen given by two opposite corners; attributes bold, blink, reverse go ... | making_console_applications:52080 | - | PS
+- **clear session** | `clear session 'name'` | Forgets the session; an open, ask or clear on a name no set session made raises nosession. | data_files:15826 | - | P
+- **close** | `close #settings_ch, #event_ch` | Closes one or more file handles (comma-separated), saving written data to disk and releasing resources. | data_files:15162 | x0357 | RPSW
+- **close all** | `close all` | Closes every open file in one command. | data_files:15178 | x0962 | RPS
+- **close table** | `close table tablename` | Closes a table after use, saving changes, freeing system resources and avoiding open-handle or lock issues. | database_practical:43497 | x0962 | RPSW
+- **close table: all** | `close table: all` | Closes all tables at once. | database_practical:43502 | x0962 | RS
+- **cluster** | `cluster employee: name$, age, salary, position$` | Declares a cluster; used with direct field assignment (employee->name$ = ...) and no add it is a single ... | ai_coding_guide:63132 | x1253 | RPSW !
+- **cluster (adhoc object fields)** | `cluster my_student: id$, address->addr1$, address->city$` | Creates an adhoc JSON object by naming the object in the field declarations, without an embedded template. | embed_cluster:23335 | x0486 | RPSW !
+- **cluster (embedded template)** | `cluster client: client_id$, client_name$, cluster address` | Embeds a cluster template's fields into another cluster, so standard fields (like an address) are shared; the ... | embed_cluster:23288 | x0486 | RPSW !
+- **cluster (initial values)** | `cluster mylist: age=35, weight=160, id$, salary` | Declares a cluster with initial values for some fields; the remaining fields are set to a null string or zero. | clusters:17811 | x0385 | RPSW !
+- **cluster (nodump/dump fields)** | `cluster customer: string name$, string nodump password$, string dump ...` | Declares a cluster whose fields can mix nodump and dump field by field; nodump fields are hidden from ... | Crash Analysis:41110 | x0902 | RPSW !
+- **cluster (prefix template)** | `cluster multi: ssn$, prefix cluster address, tax, is_okay?` | Embeds a template as a JSON object; its fields are referenced with both names, multi->address->city$. | embed_cluster:23309 | x0486 | RPSW !
+- **cluster (private in routine)** | `private routine r ... cluster my_test: name$ ... end routine` | A cluster declared inside a private routine is private to it and cannot be seen outside unless prefixed with ... | priv_clusters:23400 | u1413 | RPSW !
+- **cluster (typed field)** | `cluster employee: name$, age, position$, real salary` | A field can be explicitly declared with a data type such as real or string. | clusters:17781 | x0385 | RPSW !
+- **cluster input** | `cluster input name '@file.json': clustername` | Loads JSON data into a cluster: the rows sit in an array under a key named after the cluster, and each name ... | json:32634 | x0463 | RPW
+- **cluster input (json)** | `cluster input name '@json_prefixed.json': people3` | Loads a JSON file into a cluster, each object in the array becoming a row; nested names map with -> in the ... | cluster_spreadsheets:22795 | x0463 | RPW
+- **cluster input columns** | `cluster input name '@sales.csv', headers 1, columns raise: sales` | columns raise stops at the first row whose field count differs from the header's with a catchable BADCOLUMNS ... | cluster_spreadsheets:22543 | - | P
+- **cluster input invalid** | `cluster input name '@sales.csv', headers 1, invalid zero | nan | ...` | Says what a numeric field receives from a cell that is not a number: zero (default, keeps any digits, else ... | cluster_spreadsheets:22508 | - | P
+- **cluster input jsonl** | `cluster input name '@cities.jsonl': copy_of_cities` | Reads JSON Lines: one object per line as one row, blank lines skipped, the values landing in the members in ... | cluster_spreadsheets:22769 | - | P
+- **cluster input record/field** | `cluster input name 'x12_file.txt', record record_delimiter$, field ...` | Loads a file with custom record and field delimiters, such as an EDI X12 file, into a cluster. | cluster_spreadsheets:22855 | x0463 | RPW
+- **cluster output** | `cluster output name 'filename' [, tab | , json] [, include '1,3' |  ...` | Writes every row of a cluster to a file in the form cluster input reads back (CSV default, TSV with tab or ... | cluster_spreadsheets:22705 | - | P
+- **cluster output #channel** | `cluster output #channel [, options]: clustername` | Writes a cluster's rows to an already open channel instead of a named file. | cluster_spreadsheets:22719 | - | P
+- **cluster output jsonl** | `cluster output name '@cities.jsonl': cities` | A .jsonl (or .ndjson) name writes JSON Lines: one bare JSON object per row, one line each, no wrapper and no ... | cluster_spreadsheets:22749 | - | P
+- **cluster using** | `cluster new_student using student` | Creates a new cluster using the source cluster as a template. | copy_cluster:23471 | u1414 | RPW
+- **collect cluster** | `collect cluster inventory ... end collect` | Builds a temporary collection (view) of a cluster's rows; filtering (include/exclude) and sorting are done ... | cluster_arrays:18439 | x0423 | RPSW
+- **collect cluster: cachesize** | `collect cluster c: cachesize 4000 groupmin 2` | A collection attribute written after the colon; can be combined with groupmin. | cluster_arrays:18768 | - | P
+- **collect cluster: groupmax** | `collect cluster contacts: groupmax 1` | Keeps only groups with at most n rows (groupmax 1 = values appearing exactly once); composes with groupmin; a ... | cluster_arrays:18717 | - | PS
+- **collect cluster: groupmin** | `collect cluster contacts: groupmin 2` | After the sort, keeps only groups (rows equal on all sort keys) with at least n rows, e.g. finding ... | cluster_arrays:18667 | x0409 | RPS
+- **collect cluster: reverse** | `collect cluster log_entry: reverse` | Visits the rows from the last added back to the first (newest first); a sort by still re-orders; the older ... | cluster_arrays:18808 | x0411 | RP
+- **collect cluster: unique** | `collect cluster words: unique words->word$` | Collects one row per distinct value of the field; inside the block _extracted is the value's occurrence count. | text_analysis:23144 | u1411 | RPW
+- **const** | `const speed_of_light_mps = 299_792_458` | Defines a constant, which cannot be accidentally changed once defined. | lesson2:55516 | x1258 | RPSW
+- **constraint label** | `boards: 5 * benches + 2 * stools <= 29` | An optional label before the colon names the limit in messages and, after the block runs, becomes a variable ... | maximize_and_minimize:12914 | x0249 | RP
+- **continue** | `continue` | Continues execution with the statement that follows the one that caused the exception, after restoring the ... | exceptions:46206 | u1446 | RPSW
+- **continue routine** | `continue routine_name` | Resumes a previously yielded routine at the statement after its last yield; raises a runtime error if the ... | routines:35242 | - | P
+- **copy cluster** | `copy cluster student to new_student` | Copies only the current record from the source cluster to the destination cluster. | copy_cluster:23439 | u1414 | RP
+- **copy cluster all** | `copy cluster student to new_student2: all` | Copies all rows, starting with row one of the source, to the corresponding rows of the destination cluster. | copy_cluster:23449 | u1414 | RP
+- **copy cluster append** | `copy cluster student to new_student: append` | Copies all rows of the source cluster, appending each to the end of the destination cluster. | copy_cluster:23451 | u1414 | RP
+- **copy file** | `copy file sourcefile$ to destfile$` | Copies a file in one line, keeping its revision date and streaming the bytes instead of holding the whole ... | file_information:30332 | - | P
+- **copy file (folder target / wildcards)** | `copy file 'tut:sales_*.csv' to 'tut:backup\'` | With a folder target (trailing backslash, or an existing folder), the source may carry wildcards and every ... | data_files:15302 | - | P
+- **copy file (url source)** | `copy file 'https://example.com/' to 'tut:example.html': replace` | The source may be a web address; the page or file is fetched the way open file reads a URL and lands in the ... | data_files:15402 | - | P
+- **copy file : conditional** | `copy file 'tut:no_such.txt' to 'tut:backup\': conditional` | Tolerates a missing source (or a wildcard that matches nothing), which otherwise raises FILENOTFOUND ... | data_files:15383 | - | P
+- **copy file : replace** | `copy file src to target: replace` | Overwrites an existing target; without it, an existing target raises FILEEXISTS and _string$ names the file ... | data_files:15359 | - | P
+- **cset** | `CSET target$ = source$` | Overlays the source centered within the target's existing length, space-filling both sides; longer text is ... | strings:24391 | x0512 | RPS
+- **debug all** | `debug all / debug all "file.txt"` | The same dump as show all, from inside a program, to the default file or the one named. | profiling:40809 | - | PS
+- **debug off** | `debug off` | Turns the debugging mode off, which also turns tracing and statistics off. | profiling:40680 | x0895 | RPS
+- **debug on** | `debug on` | Turns on debugging mode, required by tracing, statistics and breakpoints; also synchronizes terminal output. ... | profiling:40641 | x0890 | RPS
+- **debug show** | `debug show x, y$` | Dumps just the variables listed. | profiling:40811 | u1434 | RSW
+- **declare** | `declare string shipping_address` | Explicitly creates a variable of a stated type (string, real, boolean, integer); suffixes may still be used ... | variable_names_and_data_types:2695 | x0020 | RPSW
+- **declare (custom type)** | `declare money monthly_salary` | Declares a variable of a custom data type. | variable_names_and_data_types:3255 | x0020 | RPSW
+- **declare (initial value)** | `declare real tax = 0.075` | Declares a variable and gives it an initial value. | variable_names_and_data_types:3489 | x0020 | RPSW
+- **declare boolean** | `declare boolean in_stock?` | Declares a boolean variable: true (1) or false (0). | lesson2:55425 | x1179 | RP
+- **declare dynamic** | `declare dynamic misc_data` | Declares a dynamic variable that can be any data type and adjusts its type according to use. | lesson2:55426 | x1179 | RPSW
+- **declare format** | `declare format "$%.2m" price` | Sets the default printed output style of a variable (e.g. $, commas and 2 decimals; "%.1f%%" for a percent). | variable_names_and_data_types:3400 | x0033 | RPS
+- **declare freezable** | `declare freezable timeout, api_base$` | Declares variables (or cluster members, or a whole array or cluster after its dim/cluster statement) as ... | variable_names_and_data_types:2929 | x0020 | RP
+- **declare integer** | `count% / declare integer count` | A signed 32-bit INTEGER holds -2147483648 to 2147483647; a result outside that range raises an Integer ... | variable_names_and_data_types:2638 | u1393 | RPS
+- **declare nodump** | `declare string nodump api_token$` | Declares a variable with the nodump modifier so its value is written as <nodump> in crash files, SHOW ALL ... | Crash Analysis:41090 | x0903 | RP
+- **declare real** | `declare real price` | Declares a real variable: a number of up to 64 significant digits with exact decimal arithmetic. | lesson2:55422 | x1179 | RPS
+- **declare string** | `declare string product_name$` | Declares a string variable, for characters such as a name. | lesson2:55423 | x1179 | RPS
+- **declare table** | `declare table str` | Declares a table variable that can later be attached to a table with set table: id. | db_utils:44443 | - | SW
+- **delay** | `delay [seconds]` | Pauses (fractions allowed, to about a tenth of a second); with no number shows Press the ENTER key to ... | making_console_applications:52059 | x0152 | RPSW
+- **delete from cluster** | `delete from cluster clustername` | Removes the current row by replacing its data with the last row's data and shrinking the cluster by one; the ... | reset_cluster:21251 | - | PW
+- **delete from cluster all** | `delete from cluster xxx: all` | Removes all rows from a cluster, commonly used when reloading data. | reset_cluster:21255 | - | P
+- **dim** | `dim ages(5) / dim names$(5)` | Declares an array of reals, strings or booleans with the given number of elements. | lesson3:55740 | x1186 | RPSW !
+- **dim (*)** | `dim shopping_list$(*)` | Declares an expandable array with an open bound; it grows as items are appended. | arrays:8689 | x0161 | RPSW !
+- **dim (0)** | `dim array(0) / array(0) = value` | The older spelling of an expandable array and its append, still supported; new code writes dim array(*) and ... | arrays:9409 | x0161 | RPSW !
+- **dim (boolean array)** | `dim flags?(n)` | Declares a boolean array, which is stored as a bit array (eight flags a byte); a store accepts only 0 or 1 ... | arrays:9350 | x0161 | RPSW !
+- **dim (expanding)** | `dim cash(0)` | Declares a dynamically expanding array that grows as needed during execution. | lesson3:55911 | x1186 | RPSW !
+- **dim (lo to *)** | `dim scores(0 to *)` | Declares an expandable array whose numbering starts at the given lower bound; the first append lands in that ... | arrays:8716 | x0161 | RPSW !
+- **dim (lo to hi)** | `dim myarray(0 to 5) / dim myarray(-10 to 30)` | Declares an array with a custom index range instead of the default lower bound of 1, negative bounds allowed. | arrays:8635 | x0161 | RPSW !
+- **dim (multi-dimensional)** | `dim weekly_hours(7, 24)` | Declares a multi-dimensional array for table-like data. | lesson3:55766 | x1186 | RPSW !
+- **dim (r, c)** | `dim grid(2, 3)` | Declares a two-dimensional (multi-dimensional) array by giving more index ranges, for structured layouts such ... | arrays:8648 | x0161 | RPSW !
+- **dim sorted** | `dim scores(*) sorted` | Declares an array that keeps itself in order: appends and element writes land at their rank, a fill sorts ... | arrays:9309 | x0179 | RPS
+- **dim string** | `dim string areas(100)` | Declares an array with the data type given by a type keyword instead of a suffix. | assumptions:2008 | x0006 | RP
+- **do** | `do ... end do` | Sheerpower's main loop construct; repeat do restarts it and exit do leaves it. The terminator list describes ... | ai_coding_guide:63482 | x0726 | RPSW !
+- **do ... end do** | `do ... end do` | Validation block that runs once by default; REPEAT DO inside it tries again, giving clean ... | looping:7963 | x0158 | RPSW
+- **do ... loop** | `do ... loop` | An endless do loop closed by loop; use while, until or exit do as needed. | ai_coding_guide:62279 | u1408 | RPS
+- **do named** | `do named order ... loop order` | Names a DO loop: its closer repeats the name (loop order, end do confirm) and exit do / iterate do / repeat ... | looping:8287 | x0158 | RP !
+- **do while** | `do while n < 50 ... loop` | Loops while the condition is true. | complex_numbers:14247 | x0304 | RPSW
+- **edit** | `edit` | Opens the program built at the console in VS Code for free-form editing (the Sheerpower IDE without VS Code ... | After Sheerpower is installed:49931 | u1417 | RPSW
+- **elseif** | `if ... then ... elseif ... then ... else ... end if` | Chains further conditions onto an IF to handle more than two possibilities. | conditionals:7274 | x0134 | RPSW !
+- **end** | `end` | Optional last statement marking the logical end of the program; it terminates the program with a normal ... | intro:240 | x1062 | RPSW
+- **end add** | `end add` | Listed in the built-in abbreviation table as the expansion of ea. | After Sheerpower is installed:49331 | x1244 | RPSW
+- **end chart** | `end chart` | Finalizes and renders the chart to its output HTML file. | charts:16895 | - | PW
+- **end collect** | `end collect` | Listed in the built-in abbreviation table as the expansion of ec. | After Sheerpower is installed:49329 | x0423 | RPSW
+- **end do** | `end do` | Clear ending statement that closes a DO code block. | program_structure:2417 | x0158 | RPSW
+- **end extract** | `end extract` | Listed in the built-in abbreviation table as the expansion of ee. | After Sheerpower is installed:49326 | - | PSW
+- **end if** | `end if` | Clear ending statement that closes an IF code block. | program_structure:2416 | x0132 | RPSW !
+- **end maximize** | `end maximize` | Closes the block; the FIRST goal's keyword closes it, even when later goals are minimize. | maximize_and_minimize:12930 | x0267 | RP
+- **end minimize** | `end minimize` | Closes a block whose first goal is minimize. | maximize_and_minimize:13143 | x0257 | RP
+- **end routine** | `end routine` | Closes a routine definition. | intro_part_2:1284 | u1390 | RPSW
+- **end select** | `end select` | Clear ending statement that closes a SELECT code block. | program_structure:2416 | x0147 | RPSW
+- **end when** | `end when` | Listed in the built-in abbreviation table as the expansion of ew. | After Sheerpower is installed:49328 | x1098 | RPSW
+- **enum** | `enum enum_name: name1, name2, name3` | Defines a related set of named numeric constants; without explicit values the members are numbered 1, 2, 3 ... | enum:23508 | x0493 | RPW
+- **enum (explicit values)** | `enum enum_name: name1=value1, name2=value2` | Assigns explicit numeric values to enum members; a member with no value gets the preceding member's value ... | enum:23548 | x0493 | RPW
+- **enum using** | `enum season2 using season` | Declares an enum with the same members as another enum. | enum:24192 | u1415 | R
+- **exclude** | `collect ... exclude isnan(sales->amount)` | Inside a collect block, drops rows matching the condition (used to skip NaN cells). | cluster_spreadsheets:22527 | - | PW
+- **execute** | `execute code$ (code that does not compile)` | The code is compiled when the statement runs. If it does not compile, the report prints at once -- the same ... | strings_as_code:46717 | - | PS
+- **exit** | `exit` | Console command named among those that make the console write its memory file sp4gl_cmds.txt; not otherwise ... | After Sheerpower is installed:49841 | x1367 | RPSW
+- **exit do** | `exit do` | Leaves a DO loop immediately (e.g. when the player wins). | looping:7925 | x0158 | RPSW !
+- **exit extract** | `exit extract` | Exits the extract block, keeping the records collected up to that point. | database_practical:43001 | u1419 | RPS
+- **exit for** | `if row_count > 10 then exit for` | Leaves a for / for each loop; with a counter after a sorting collect it gives the top N rows (there is no ... | cluster_arrays:18471 | x0401 | RPSW !
+- **exit routine** | `if amount <= 0 then exit routine` | Exits a routine early, before reaching its end (there is no return statement); used for guard checks at the ... | ai_coding_guide:62543 | x1266 | RPSW
+- **extract table** | `extract table products ... end extract` | Scans a table row by row, each row becoming the current record, and builds a collection of all records or a ... | database_practical:42548 | - | PSW
+- **extract table (key range)** | `extract table table_name, field key_field: key start_key_value$ to ...` | Extracts the records whose key falls within a range of key values. | database_practical:42794 | - | PSW
+- **extract table (key)** | `extract table table_name, field key_field: key key_value$` | Exact key lookup that extracts all records with that key value, finding all duplicates. | database_practical:42751 | - | PSW
+- **extract table (partial key)** | `extract table table_name, field key_field: partial key ...` | Extracts the records whose key begins with the given partial key value (e.g. last names starting with R). | database_practical:42773 | - | PSW
+- **extract table ... append** | `extract table detail, field lineid: key '10301001' to '10302000' ...` | Appends the records of a new extract to the previous extraction instead of replacing it. | database_practical:43479 | - | PS
+- **extract table: cachesize** | `extract table clients: cachesize 100, groupmin 2` | An extract option written after the colon that comma-chains with the other extract options. | database_practical:43236 | - | P
+- **extract table: groupmax** | `extract table clients: groupmax 1` | Keeps only groups with at most n records (groupmax 1 = one-of-a-kind values); composes with groupmin ... | database_practical:43195 | - | P
+- **extract table: groupmin** | `extract table clients: groupmin 2` | After the sort, keeps only groups (records equal on the complete set of sort keys) containing at least n ... | database_practical:43173 | - | P
+- **fill** | `fill prices with 10, 20, 30, 40` | Loads an array in one statement: broadcast, a list, n of v, seq(), positioned x(pos) or append x(*) (covered ... | array_math:9876 | x0189 | RPW
+- **fill (array expression)** | `fill slot with seq(1, 12)` | Lays the elements of an array expression (seq(), filter(), sort(), arithmetic, another array) into the array ... | arrays:9006 | x0176 | RPW
+- **fill (broadcast)** | `fill scores with 0` | Gives every element of the array the same value; the value is evaluated for every element, and on an ... | arrays:8978 | x0176 | RPW
+- **fill (list)** | `fill day_names$ with 'Mon', 'Tue', 'Wed'` | Assigns one value per element, left to right; too many values raises catchable FILLOVER before anything is ... | arrays:9037 | x0176 | RPW
+- **fill (n of)** | `fill x with 3 of (1, 2, 3)` | A list item may be n of value (or n of a parenthesized group) to repeat it n times; the value is evaluated ... | arrays:9176 | x0176 | RPW
+- **fill ... of** | `fill dice with 1000 of rnd(6)` | Fills an array with N elements, evaluating the value expression once per element. | Sheerpower_statistics:19732 | x0437 | RP
+- **fill x(*)** | `fill menu$(*) with 'Water', 'Milk'` | Writes the values starting at the slot after the last one used (the append cursor), adding to the end; grows ... | arrays:9061 | x0173 | RP
+- **fill x(pos)** | `fill buf(20) with 1, 2, 3, 4` | Writes the values starting at the named element and running on in storage order; never discards existing ... | arrays:9099 | x0173 | RP
+- **fill x(start step n)** | `fill x(1 step 2) with 7` | Writes the values every n-th element from the start, in storage order: one value strides to the end of the ... | arrays:9128 | x0173 | RP
+- **for** | `for i = 1 to size(shopping_list$) ... next i` | Loops over a numeric range; used with size() as the upper bound to visit every element of an array. | arrays:8728 | x0161 | RPSW !
+- **for (open-ended)** | `for idx = 1 ... next idx` | A for loop with no upper bound; leave it with exit for. | ai_coding_guide:62501 | x1253 | RPSW !
+- **for each** | `for each inventory ... next inventory` | Loops through the rows of the collection just built by collect. | cluster_arrays:18445 | x0406 | RPSW !
+- **for step** | `for i = 10 to 1 step -1` | FOR loop with a negative STEP for counting backward. | looping:8085 | x0152 | RPSW
+- **freeze** | `freeze timeout, api_base$` | Runtime statement that makes freezable variables immutable from the moment it executes; any later write ... | variable_names_and_data_types:2936 | x0020 | RP !
+- **go** | `go (after a halt and a switch)` | Halt the running program with alt/b (or let it reach a break), type debug on or debug off -- or any switch -- ... | profiling:40758 | x0492 | RPW
+- **guard** | `guard statements` | Early exits used instead of many nested if statements, making code flatter and easier to follow. | Coding_insights:41443 | x0750 | RPW
+- **handler** | `handler fix_divide_error ... end handler` | Defines a detached exception handler block, closed by end handler. | ai_coding_guide:63448 | x0848 | RPSW
+- **help** | `help / help cluster input` | Opens the getting-started tutorial page in the browser; followed by a word or two (help cluster input), opens ... | After Sheerpower is installed:49053 | x0571 | RPSW
+- **hex literal** | `0xFF` | A whole number written in hex: 0x, then the digits 0-9 and A-F in either case, one _ allowed between two ... | operators:6624 | x0119 | RPS
+- **if** | `if employee(salary) > 100000 then ... end if` | Runs the enclosed statements when the Boolean expression evaluates to true. | expressions:5652 | x0075 | RPSW !
+- **if else** | `if ... then ... else ... end if` | ELSE runs a different block of code when the IF condition is false. | conditionals:7239 | x0133 | RPSW
+- **if expression** | `x = (if test then a else b)` | Chooses a value where one goes: charges = (if in_facility? then in_rate * units else out_rate * units). ELSE ... | conditionals:7302 | x0135 | RPS !
+- **if then** | `if mod(term, 10) = 0 then print ...` | Single-line conditional that runs the statement after THEN when the condition is true. | variable_names_and_data_types:3597 | u1393 | RPSW
+- **include** | `include cities->population > 10_000_000` | Inside a collect block, keeps only rows matching the condition. | cluster_spreadsheets:22923 | u1410 | RPSW
+- **input** | `input 'prompt', default d$: a$ (under /headless)` | Under /headless an empty piped line answering an input or line input that has a default takes the default -- ... | ai_coding_guide:64870 | x1367 | RPSW !
+- **input #** | `input #1: data$` | Reads data from an open file channel. | exceptions:46145 | x1367 | RPSW
+- **input area** | `line input area top, left, bottom, right: text$` | A rectangle on the screen for multi-line text entry. | making_console_applications:51129 | x1099 | RPS
+- **input at** | `line input 'Name', at 5, 10: n$` | Places the prompt at a row and column on the screen, 1-origin. | making_console_applications:51128 | x1095 | RPS
+- **input attributes** | `input 'Prompt', attributes 'bold': var` | Display attributes for the field, such as 'bold' or 'reverse'. | making_console_applications:51131 | - | P
+- **input default** | `input 'What is your country', default 'USA': country$` | Input with a default value supplied for the response. | assumptions:2021 | - | P
+- **input dialogbox** | `input dialogbox spec$: var` | A dialog box definition; implies line input. | making_console_applications:51139 | - | PS
+- **input elapsed** | `line input 'Prompt', elapsed took: a$` | Receives the seconds the person took to answer (a real gets hundredths, an integer is rounded); works for ... | making_console_applications:51126 | x1093 | RP
+- **input eof** | `line input 'Line', eof done?: a$` | Sets the boolean to true when there is no more input (closed pipe, Ctrl+Z) and returns an empty value ... | making_console_applications:51132 | x1094 | RPSW
+- **input erase** | `input 'Enter a 2nd name', at 4, 1, erase: name_2$` | Clears the input line before the prompt and again when the answer is in. | making_console_applications:51215 | - | s
+- **input id** | `input 'Prompt', id str: var` | An identifier for the field, used by screen forms. | making_console_applications:51135 | - | W
+- **input length** | `input 'Enter a city', length 20: city$` | Limits the answer to n characters and draws the field as n underscores. | making_console_applications:51202 | - | S
+- **input menu** | `input menu spec$: choice$` | The same statement as line input menu. | making_console_applications:51447 | - | PS
+- **input options** | `input [prompt str] [, erase] [, at row, col] [, length n] [, default ...` | Options that customize input: a prompt, erase, screen position, length, a default value, VALID rules the ... | user_input:50557 | x1079 | RPSW
+- **input prompt** | `line input prompt 'Your name: ': n2$` | The prompt option shows the prompt exactly as written, with no question mark added. | making_console_applications:51121 | x1084 | RPSW
+- **input screen** | `input screen form$, default df$: city$, state$` | Several <...> fields make a form with a variable for each; Tab next field, Escape previous, Enter in the last ... | making_console_applications:51972 | - | P
+- **input screen call** | `<at 7, 10, call check_zip: Zip #####>` | A routine of yours that runs each time the field is left, with the field's text in _string$; message error ... | making_console_applications:51882 | - | P
+- **input timeout** | `line input 'Answer within 5 seconds', timeout 5: a$` | Seconds to wait for an answer before the statement gives up; works for menus too. | making_console_applications:51125 | x1098 | RP
+- **input valid** | `input 'Prompt', valid rules$: var` | A validation rule the answer must pass before it is accepted, else the prompt repeats; rule words include ... | making_console_applications:51124 | - | P
+- **iterate do** | `if amounts(entry_no) < 0 then iterate do` | Repeats a DO loop by jumping to the bottom, its LOOP line: the rest of the pass is skipped and a LOOP WHILE / ... | looping:8147 | x0155 | RPSW
+- **iterate for** | `if chores$(i) = "DONE" then iterate for` | Skips the rest of the current FOR loop run and moves immediately to the next counter value. | looping:8094 | x0153 | RPSW !
+- **key input** | `key input [prompt p$] [, elapsed t]: k$` | Does not echo the key or start a new line; takes the options of input and sets _exit, _back, _help and ... | making_console_applications:51066 | - | P
+- **key input elapsed** | `key input prompt 'Press a key, quick!', elapsed x: press$` | The elapsed option records in a variable how many seconds the user took to press the key. | user_input:50736 | - | P
+- **keys** | `keys` | Prints a one-screen reference of every special keystroke and console word, grouped by purpose (editing ... | After Sheerpower is installed:48962 | x0462 | PSW
+- **kill** | `kill filespec$` | Deletes the specified file; raises an exception if the file does not exist. | data_files:15229 | - | PSW
+- **kill conditional** | `kill conditional: filespec$` | Attempts to delete the file but does not raise an exception if the file is not found. | data_files:15245 | - | PSW
+- **let** | `monthly_salary = employee(annual_salary) / 12` | Assignment: the expression on the right is evaluated first, then the result is stored into the variable or ... | expressions:5600 | u1398 | RPS
+- **library** | `library 'name.dll'` | Specifies the DLL library whose routines will be called with the CALL statement. | ext_calls:36998 | - | PS
+- **line input** | `line input "Enter a sentence": sentence$` | Reads an entire line including spaces and commas. Under /headless it reads one line of piped stdin per ... | ai_coding_guide:62910 | x1367 | RPSW
+- **line input #** | `line input #settings_ch, eof eof?: setting$` | Reads one line of a file into a variable; the eof keyword names a boolean variable set to true when an input ... | data_files:15444 | x1367 | RPSW
+- **line input (no prompt)** | `line input name$` | Reads a line from the user without a prompt string (the prompt is printed separately). | ai_coding_guide:64772 | x1367 | RPSW
+- **line input area** | `line input area top, left, bottom, right: text$` | A rectangle of the screen as a small text editor: word wrap, arrow keys, insert and delete, a bell at the ... | making_console_applications:51265 | x1099 | RPS
+- **line input dialogbox** | `line input dialogbox form$: answer$` | Shows a dialog box defined by an HTML-like string (a <sheerpower> window holding a <form> of fields and a ... | dialog_boxes:52313 | - | PS
+- **line input dialogbox autosubmit** | `<sheerpower autosubmit=30>` | Submits the form on its own after the given seconds of inactivity, as if the button had been clicked. | dialog_boxes:52753 | - | P
+- **line input dialogbox call** | `<input name="code" call="check_code">` | Runs one of your routines each time the field loses focus, for live per-field checking; raising an exception ... | dialog_boxes:52764 | - | -
+- **line input dialogbox default** | `line input dialogbox form$, default seed$: answer$` | Pre-fills the form's fields before it appears from name=value pairs joined by chr$(26), the same format as ... | dialog_boxes:52614 | - | P
+- **line input dialogbox field flags** | `%focus, %readonly, %order, %error` | Field flags used with pre-filling to mark fields focused, read-only, re-ordered or in error. | dialog_box_reference:53036 | - | P
+- **line input dialogbox file picker** | `<sheerpower type=open|saveas|select filter="name=pattern">` | With type=open, saveas or select on the <sheerpower> element the same statement opens the operating system's ... | dialog_boxes:52665 | - | s
+- **line input dialogbox href** | `<sheerpower href="..."> / src` | Loads the dialog's body from a URL instead of the inline text. | dialog_box_reference:53058 | - | -
+- **line input dialogbox onchange** | `<input name="code" onchange="submit()">` | onchange="submit()" on a text field submits the form as soon as the field is left with its text changed ... | dialog_boxes:52716 | - | s
+- **line input dialogbox onchange / onclick** | `<input onchange="submit()"> / onclick="submit()"` | Submits the form when the text field is left with its text changed, or when the control is clicked ... | dialog_box_reference:53114 | - | W
+- **line input dialogbox th sort** | `<th sort>` | Marks a table heading as sortable: clicking it re-orders the whole table by that column (ascending, then ... | dialog_boxes:52856 | - | -
+- **line input dialogbox type=image** | `<input type=image src="..." name="go">` | Uses a picture as the submit button; clicking it submits the form, and the answer names the button: go=submit ... | dialog_boxes:52802 | - | s
+- **line input dialogbox valid** | `<input name="email" valid="required" message="...">` | A valid rule on a field (same rule words as the line input valid option) makes the dialog refuse to submit ... | dialog_boxes:52570 | - | P
+- **line input dialogbox window flags** | `<sheerpower persist ontop inactive noresize autoscale attached>` | Window flags written by name alone: keep position and size between runs, stay above other windows, open ... | dialog_box_reference:53060 | - | s
+- **line input menu** | `line input menu sample_menu$: selection$` | Shows a pop-up menu described by the string (e.g. '%title "Options", Add, Change, Delete, Inquire') and ... | user_input:50662 | - | PS
+- **line input menu %at** | `%at row, col` | Menu directive: position of the menu's top-left corner; either may be center. | making_console_applications:51503 | - | P
+- **line input menu %attached** | `%attached` | Menu directive: the menu minimizes and restores with the console window; top-level only. | making_console_applications:51536 | - | P
+- **line input menu %autodisplay** | `%autodisplay on|off` | Menu directive: submenus open as soon as their item is highlighted (on by default). | making_console_applications:51533 | - | P
+- **line input menu %autovbar** | `%autovbar on|off` | Menu directive: automatic bars between columns (on by default). | making_console_applications:51511 | - | P
+- **line input menu %bar** | `%bar / %bar 'text'` | Menu directive: a rule across the column, plain or carrying text. | making_console_applications:51523 | - | PS
+- **line input menu %border** | `%border on|off` | Menu directive: draw the frame (on by default); with it off there is no title either. | making_console_applications:51514 | - | P
+- **line input menu %columns** | `%columns n` | Menu directive: split the items evenly into n columns. | making_console_applications:51505 | - | P
+- **line input menu %heading** | `%heading ["text"]` | Menu directive: a labelled separator in the heading colour; with no text, a blank line and a dashed rule. | making_console_applications:51524 | - | P
+- **line input menu %inactive** | `%inactive` | Menu directive: the menu is shown as a normal window that others may overlap; top-level only. | making_console_applications:51535 | - | P
+- **line input menu %invalid** | `%invalid item` | Menu directive: the next item is shown but cannot be chosen (and is not counted in the path). | making_console_applications:51525 | - | P
+- **line input menu %items** | `%items n` | Menu directive: at most n items per column before a new column starts. | making_console_applications:51506 | - | P
+- **line input menu %left** | `%left` | Menu directive: entries flush left in their column, with no indent. | making_console_applications:51513 | - | P
+- **line input menu %lockstep** | `%lockstep on|off` | Menu directive: columns scroll together (on by default). | making_console_applications:51512 | - | S
+- **line input menu %maxwidth** | `%maxwidth n` | Menu directive: maximum width of the whole menu (at least 5); the last column is cut. | making_console_applications:51509 | - | S
+- **line input menu %menubar** | `%menubar` | Menu directive: a horizontal menu bar with pull-down submenus, one row per column. | making_console_applications:51515 | - | P
+- **line input menu %message** | `%message "text"` | Menu directive: a message (status line) shown while the menu is up. | making_console_applications:51522 | - | PS
+- **line input menu %multi** | `%multi` | Menu directive: turns the menu into a checklist with Done, Back and Exit; Space toggles, Done returns every ... | making_console_applications:51531 | - | P
+- **line input menu %nomouseover** | `%nomouseover` | Menu directive: no highlighting under the mouse pointer; top-level menu only. | making_console_applications:51534 | - | P
+- **line input menu %replace** | `%replace` | Menu directive: a submenu that replaces its parent instead of opening beside it; its Back item returns. | making_console_applications:51532 | - | P
+- **line input menu %size** | `%size n` | Menu directive: rows visible in the current column (at least 2); more items scroll. | making_console_applications:51507 | - | S
+- **line input menu %split** | `%split` | Menu directive: start a new column here. | making_console_applications:51504 | - | P
+- **line input menu %title** | `%title "text"` | Menu directive: the menu's title. | making_console_applications:51521 | - | PS
+- **line input menu %vbar** | `%vbar` | Menu directive: a vertical bar after the current column. | making_console_applications:51510 | - | P
+- **line input menu %width** | `%width n` | Menu directive: minimum width of the current column. | making_console_applications:51508 | - | P
+- **line input menu item value** | `'Small = S, Medium = M, Large = L'` | A menu item written text = value shows the text and returns the value; unquoted items show in upper case ... | making_console_applications:51355 | - | P
+- **line input menu submenu** | `'tropical = { mango, papaya }'` | A menu item written text = { items } is a submenu, nested as deeply as you like, titled with the item's text ... | making_console_applications:51373 | - | P
+- **line input screen** | `line input screen` | Listed in the built-in abbreviation table as the expansion of ls. | After Sheerpower is installed:49333 | - | P
+- **list** | `list` | Listed in the built-in abbreviation table as the expansion of l. [console command] | After Sheerpower is installed:49334 | x0161 | RPSW
+- **list stats** | `list stats` | Writes profiling information to myprogram_stats.txt: for each routine called, its accumulated elapsed time ... | profiling:40647 | - | P
+- **local** | `local routine_name` | Calls a local routine from within its parent; the required local prefix makes the call's nature clear. | routines:34292 | x0748 | RPSW
+- **local routine** | `local routine name with label, value` | A local routine keeps one-routine-only helper logic next to the routine that uses it, out of the module's ... | large_application_architecture:39588 | x0804 | RPS
+- **lock table** | `lock table payroll` | Explicitly locks the table's current record and keeps it locked across several statements, until unlock table ... | database_practical:42617 | - | PSW
+- **loop until** | `do ... loop until condition` | Ends a DO loop's repetition once the condition becomes true (keep asking until the user guesses correctly). | looping:7929 | x0155 | RPS
+- **loop while** | `do ... loop while guess_count < max_guesses` | Continues a DO loop while the condition is true. | looping:8507 | - | PS
+- **lset** | `LSET target$ = source$` | Overlays the source into the target's existing buffer left-justified and space-filled, keeping the target's ... | strings:24390 | x0515 | RPSW
+- **maximize (block)** | `maximize goal = linear expression ... end maximize` | Writes a resource-allocation problem as a block: the goal line names a result and how it is worked out, to be ... | maximize_and_minimize:12899 | x0267 | RP !
+- **media** | `media '@chime.wav'` | Plays a sound file (a .wav) and waits until it ends; media nowait: plays it while the program goes on, media ... | making_console_applications:52147 | x1136 | RP
+- **media loop** | `media loop: '@alarm.wav'` | Plays the sound file over and over in the background until the next MEDIA statement (media '' stops it). | making_console_applications:52147 | - | P
+- **media nowait** | `media nowait: '@done.wav'` | Plays the sound file while the program goes on; the next MEDIA statement stops it (media '' stops it alone). | making_console_applications:52147 | x1136 | RP
+- **message** | `message 'number is', 123; 456` | Writes on the message line at the bottom of the window without touching the screen; a comma puts one space ... | making_console_applications:52037 | x1132 | RPSW
+- **message delay** | `message delay: text$` | The program waits while the message is read: about three seconds, longer for a longer message. | making_console_applications:52054 | - | s
+- **message error** | `message error: 'Is this really your age?'` | An error message: red, in a pop-up box with an error tone, and the typeahead is thrown away. | making_console_applications:52050 | - | PS
+- **minimize (block)** | `minimize name = expr ... end minimize` | The minimize form of the block statement with named unknowns (its own page). | array_math:11086 | x0257 | RP
+- **module** | `module name ... end module` | Groups routines (and data) into a named module, e.g. a tax module of common tax routines in an include file. | modules:36944 | x0808 | RPS !
+- **module routine call** | `module_name.routine_name with ...` | Data and routines inside a module are referenced by prefixing their names with the module name and a dot. | modules:36956 | - | PS
+- **move file** | `move file 'tut:report.txt' to 'tut:archive\'` | Same shape as copy file but the source is gone afterwards; a move across drives is a copy followed by a ... | data_files:15319 | - | P
+- **new** | `new` | Console command named among those that make the console write its memory file sp4gl_cmds.txt; not otherwise ... | After Sheerpower is installed:49836 | x1246 | RPSW
+- **next** | `next varname` | Closes both numeric for loops and for each loops (not an end keyword). | ai_coding_guide:62299 | x1293 | RPSW !
+- **nodump** | `nodump` | Marks sensitive data so it is automatically excluded from debug outputs. | appendix_main_features:1795 | x0902 | RP
+- **octal literal** | `0o17` | A whole number written in octal: 0o, then the digits 0 to 7, one _ allowed between two digits (0o755 is 493). ... | operators:6624 | x0119 | RP
+- **old** | `old` | Console command named among those that make the console write its memory file sp4gl_cmds.txt; not otherwise ... | After Sheerpower is installed:49836 | x0595 | RPSW
+- **open** | `open out_ch: name email$, access output` | Opens a channel on the email URL (written here without the word FILE). | sending_emails:16321 | x0373 | RPSW
+- **open #** | `open #1: name filename$, access input` | Opens a file on a numbered channel inside a protected block. | exceptions:46109 | x0373 | RPSW
+- **open file** | `open file in_ch: name '@..\safe\safe_bible.txt'` | Opens a file on a named channel for reading; @ makes the path relative to the program's directory. | text_analysis:23098 | u1411 | RPSW
+- **open file (@ path)** | `open file data_ch: name "@data.txt", access input` | The @ in a file path always refers to the directory where the program is running, keeping code portable. | data_files:15541 | x0357 | RPSW
+- **open file (url)** | `open file url_ch: name "https://sheerpower.ttinet.com/index.html"` | Opens a URL (including parameter pairs) with the same file commands as a local text file, performing an HTTP ... | data_files:15690 | x0357 | RPSW
+- **open file access append** | `open file logfile: name "log.txt", access append` | Opens a file for writing at the end, creating it if missing (and any missing directories); safe for multiple ... | data_files:14746 | - | PW
+- **open file access input** | `open file settings_ch: name "settings.txt", access input` | Opens an existing file for reading only; this is the default mode if none is given. A missing input file ... | data_files:14754 | x0347 | RPW
+- **open file access output** | `open file ch: name "file.txt", access output` | Creates a new, empty file for writing, overwriting an existing one; each write appends a CRLF. Any missing ... | data_files:14741 | - | PSW
+- **open file access update** | `open file ch: name "file.txt", access update` | Opens an existing file for both reading and writing (a missing file is created, as access output would); each ... | data_files:14760 | - | P
+- **open file cgi://** | `open file cgi_ch: name "cgi://HANDLERNAME"` | Opens the CGI channel for a web handler; requests are then read with line input #cgi_ch. | ai_coding_guide:63582 | - | W
+- **open file data://** | `open file data_ch: name 'data://'` | Creates an in-memory file channel that behaves like an ordinary file but stores data only in memory (several ... | data_files:15997 | x0357 | RPSW
+- **open file http-post://** | `open file ch: name 'http-post://' + quote$(url$), data body$, headers ...` | Sends data to a URL (HTTP POST by default); the server's reply reads back from the channel like any file; a ... | data_files:15875 | x0357 | RPSW
+- **open file http-post:// (short form)** | `name 'http-post://' + quote$(url$) + '?' + body$` | The body may be appended to the URL after a question mark; the same as the data clause, with no size limit. | data_files:15900 | x0357 | RPSW
+- **open file http-post:// data** | `data body$` | The data clause carries the request body, any size, sent byte for byte (form name=value pairs by default, or ... | data_files:15884 | x0357 | RPSW
+- **open file http-post:// headers** | `headers hdrs$` | The headers clause takes header lines, one per line (e.g. 'Authorization: Bearer ' + key$); a Content-Type ... | data_files:15890 | - | P
+- **open file http-post:// verb** | `verb 'PUT'` | Selects the HTTP method: the default is POST; 'PUT', 'PATCH' and 'DELETE' work the same way, body and all. | data_files:15895 | - | P
+- **open file mailto://** | `open file email_ch: name 'mailto://' + sendto$ + '?subject=' + ...` | Sends an email: open a file channel on a mailto:// URL whose parameters (subject, mailfrom, replyto ... | sending_emails:16240 | - | P
+- **open file mailto:// attach** | `'&attach=invoice123.pdf'` | Adds a file attachment to the email. | sending_emails:16441 | - | X
+- **open file mailto:// mime_type=html** | `'&mime_type=html'` | Specifies HTML email format, so the printed body is HTML. | sending_emails:16304 | - | P
+- **open file mailto:// port** | `'&port=465'` | The SMTP port. 465 is encrypted (TLS) from the first byte and the server's certificate is checked; any other ... | sending_emails:16401 | - | P
+- **open file mailto:// server** | `'&server=smtp.provider.com'` | The SMTP server. A domain that publishes its mail servers (MX records) gets the email at them, the most ... | sending_emails:16397 | - | X
+- **open file mailto:// wait** | `'&wait'` | CLOSE tries the email once, right away, for up to about a minute: a server that refuses it for good makes ... | sending_emails:16373 | - | P
+- **open file session** | `open file ch: name '/repos/tti/sheerpower/issues', session 'github'` | The one thing a call in a session adds: the session's base, headers, cookies and timeout apply; the reply's ... | data_files:15823 | - | P
+- **open file shared** | `open file log_ch: name '@activity_log.txt', access output, shared` | Opens a file so multiple processes can access it at once; writes are flushed on an internal timed cycle so ... | data_files:14763 | - | P
+- **open file tcp://** | `open file tcp_ch: name 'tcp://[ip]?[param1=value1]&[param2=value2]' ...` | Opens a TCP/IP channel (delivery confirmed, garbled data re-sent); with an IP address it is a client to that ... | tcp_udp_protocols:16711 | x0373 | RPS
+- **open file textwindow://** | `open file event_ch: name "textwindow://My EventLog?width=120", access ...` | Opens a separate on-screen text window as an output channel; the text after textwindow:// is the window ... | data_files:14970 | - | SW
+- **open file textwindow:// options** | `name "textwindow://Process Log?width=90&height=30&max=5000&noclose"` | Options follow a ? in URL style separated by &: width, height and max (scroll-back lines) take values ... | data_files:15016 | x0323 | R
+- **open file timeout** | `open file ch: name url$, timeout nn` | If the open stalls longer than nn seconds, raises a catchable filenotfound exception (_integer 12002 after a ... | data_files:14775 | x0375 | RP
+- **open file udp://** | `open file udp_ch: name 'udp://[ip]?[param1=value1]&[param2=value2]' ...` | Opens a UDP channel (no handshake, no confirmation, faster); with an IP address it is a client to that ... | tcp_udp_protocols:16805 | x0375 | RP
+- **open file unformatted** | `open file ch: name "file.jpg", access output, unformatted` | Writing to the file does not append a CRLF to each write; used to read and write raw binary bytes without ... | data_files:14771 | - | PS
+- **open table** | `open table payroll: name '@..\data\payroll'` | Opens a database table, giving it a reference name (here PAYROLL) used for field access; the table is found ... | database_practical:42464 | - | PSW
+- **open table (external odbc)** | `open table con: name 'contacts in mycontacts'` | Opens a table from an external database engine through a Windows ODBC data source; the name form 'table in ... | external_databases:45843 | - | PSW
+- **option abort** | `option abort` | With option abort, an uncaught runtime exception ends the program and writes an _error_ file that opens with ... | After Sheerpower is installed:50240 | x1364 | RPW
+- **option base** | `option base 0` | Changes arrays from the default one-origin (first element is number one) to zero-origin. | lesson3:55752 | - | P
+- **option insights** | `option insights` | Added at the top of a program, makes the compiler collect metrics and generate a Coding Insights Report ... | Coding_insights:41298 | - | PSW
+- **option legacy** | `option legacy (changing a WITH parameter)` | Each with parameter is a COPY of the argument, so the routine may change it and the caller still has its own ... | routine_parameters_detail:36193 | x0800 | RP
+- **option memlimit** | `option memlimit 4000` | Sets a memory limit in megabytes; when it is reached Sheerpower raises an exception and writes ... | memlimit:41633 | x0909 | RP
+- **option permissive** | `option permissive` | The older spelling of OPTION LEGACY: the same option. | routine_parameters_detail:36409 | - | P
+- **option require declare** | `option require declare` | Strict mode: the compiler issues a hard error whenever a variable is used without first being declared. | assumptions:1980 | - | P
+- **option test off** | `option test off` | Explicitly turns test mode off (the default). | unit_testing:40206 | x0888 | RPS
+- **option test on** | `option test on` | Mentioned as turning on test mode, which sets _test; also set by sp4gl /test. | conditional_compilation:38670 | x0885 | RPS
+- **pass** | `pass "dir > listing.txt"` | Runs an operating system command; _integer then holds its exit status. Also used to start the SPINS web ... | ai_coding_guide:63658 | - | PSW
+- **pass noreturn** | `pass noreturn: command$` | Launches a command and immediately terminates the current Sheerpower program without waiting for the new ... | pass:37268 | - | s
+- **pass nowait** | `pass nowait: "command"` | Executes the command in the background and immediately returns control to the program. | pass:37223 | - | PS
+- **pass nowait, url** | `pass nowait, url: outfile$` | Opens the chart in a browser without waiting. | charts:17311 | - | s
+- **pass url** | `pass url: outfile$` | Launches the chart file in a browser. | charts:16998 | - | P
+- **permafreeze** | `permafreeze license_key$` | Freezes a variable (or array or cluster) permanently for the rest of the run; it cannot be thawed and ... | variable_names_and_data_types:3080 | - | P
+- **print** | `print 'This program returns the prime numbers'` | Prints information to the user; a trailing comma prints in columns and a bare print outputs a new line. | sieve:57064 | x1206 | RPSW !
+- **print #** | `print #cgi_ch: "success,"; quote$(words->def$)` | Writes the response to the Fast-CGI request; SPINS supplies CGI headers from the file type if none are given. | fast_cgi:53854 | x0065 | RPSW
+- **print # (multiple handles)** | `print #handle1, #handle2, #handle3: 'your text'` | Writes the same output to several channels at once by listing all the file handles in a single print ... | data_files:14891 | x0314 | RPSW
+- **print #0** | `print #0, #logfile: event$` | Channel #0 is the console, always open; a print with no channel targets it, and a program that never prints ... | data_files:14702 | x0314 | RPSW
+- **print (array expression)** | `print prices * 1.12` | Print takes a whole-array expression directly and prints the result exactly as it prints an array, without ... | array_math:9911 | x0182 | RPSW !
+- **print (array)** | `print scores` | Printing a whole array shows the elements lined up in columns sized to the widest one; a two-dimensional ... | arrays:9241 | x0163 | RPSW !
+- **print array** | `print array x: list, index, csv, quoted` | Prints an array with a layout; quoted wraps each string element in quotes. | array_math:12655 | x0237 | RP
+- **print array #ch** | `print array scores #ch: list` | Prints the array to an open file channel. | arrays:9269 | x0178 | RP
+- **print array: csv** | `print array day_names$: csv` | Prints the array as CSV: strings quoted, commas with no spaces. | arrays:9267 | - | P
+- **print array: index** | `print array scores: list, index` | Shows each element's subscript before it (a 2D array shows (row,col)). | arrays:9263 | - | P
+- **print array: list** | `print array scores: list` | Prints the array one element per line. | arrays:9262 | - | P
+- **print array: quoted** | `print array day_names$: quoted` | The aligned display with each string element wrapped in quotes, revealing empty or whitespace-bearing ... | arrays:9268 | x0178 | RP
+- **print at** | `print at 10, 1: 'Rewrapped text'` | Prints at a given row and column of the screen. | user_input:50643 | x1079 | RPSW
+- **print cluster** | `print cluster clustername` | By default outputs the cluster fields in CSV format. | clusters:17912 | u1405 | RPW
+- **print cluster all** | `print cluster clustername: all` | Prints every row of a cluster in CSV format. | cluster_spreadsheets:22607 | u1413 | RP
+- **print cluster, list** | `print cluster dinner, list` | Shows the names of each cluster member and their values. | clusters:17910 | u1405 | RP
+- **print enum** | `print enum season` | Prints an enum's members. | enum:24189 | u1415 | RP
+- **print enum list** | `print enum season2, list` | Prints an enum's members in list form. | enum:24193 | u1415 | R
+- **print using** | `print using '{date mdcy}##/##/####': '20000115'` | A mask may start with a directive in braces that reshapes the value first -- {date [layout]}, {rotate n} ... | making_console_applications:52133 | x1137 | RP
+- **private** | `routine name: private a, b$` | Declares variables private to the routine on its declaration line. | validation_rules:32263 | x0659 | RPSW
+- **private routine** | `private routine name ... end routine` | Defines a routine with its own variable namespace; variables inside are local, and a global is reached with ... | routines:34225 | x0758 | RPS
+- **program** | `program name` | Optional first statement of a source file; sets the program name used in crash reports, profiling output and ... | intro:238 | x1368 | RPSW
+- **randomize** | `randomize` | Restarts the random numbers from an unpredictable point taken from the clock -- what every program run does ... | common_math_functions:33649 | x0729 | RPS
+- **recursive routine** | `recursive routine factorial_of with n, returning result` | A routine that may call itself, directly or through other routines: each call gets fresh copies of its scalar ... | routines:34796 | x0764 | RP !
+- **redim** | `redim x(2, 3) / redim x(*)` | Changes the shape of an expandable array you already have (new bounds or a new number of dimensions), keeping ... | array_math:10072 | x0188 | RPS
+- **redim (*)** | `redim shopping_list$(*)` | Empties an expandable array so it can start over. | arrays:8722 | x0160 | RPS
+- **reextract** | `reextract` | Incremental query composition on database tables without rescanning datasets (with append). | appendix_main_features:1773 | - | P
+- **reextract table** | `reextract table client ... end extract` | Applies new filters and sorts to an already extracted record set without re-accessing disk; the delayed sort ... | database_practical:43932 | - | P
+- **rename file** | `rename file 'tut:app.log' to 'app_old.log'` | Gives a file a new name in the folder it already lives in; the new name is a bare name (a backslash, slash or ... | data_files:15336 | - | P
+- **rename file (wildcards)** | `rename file 'tut:sales_*.csv' to 'sales_2026_*.csv'` | With a wildcard source, each * in the new name takes what the matching * of the source matched, so a set of ... | data_files:15338 | - | P
+- **repeat do** | `if method$ = "" then repeat do` | Goes back to the top of the do loop; used when the queue was empty (idle) or after an error reply. | fast_cgi:53835 | x0158 | RPSW
+- **repeat for** | `for i = 1 to n ... repeat for ... next i` | Runs the current pass of a FOR loop again from the top: the counter is not stepped and its limit is not ... | looping:8113 | x0154 | RPS
+- **repeat routine** | `repeat routine` | Restarts execution of the routine from the beginning without resetting parameters or variables. | routines:34389 | - | PS
+- **reset cluster** | `reset cluster clustername` | Resets all values in the current cluster row to nulls and zeros; the row stays in place (not reused by later ... | reset_cluster:21229 | - | PSW !
+- **reset cluster all** | `reset cluster clustername: all` | Resets the entire cluster to nulls and zeros and deletes all of its rows. | reset_cluster:21236 | - | PW
+- **retry** | `retry` | Retries the statement that caused the exception: restores the saved routine depth and re-executes the ... | exceptions:46207 | x1007 | RPS
+- **return** | `return` | Returns from the routine early. | program_seg-advanced:36670 | x0804 | RPW
+- **returning** | `routine name with a, b, returning r` | The returning clause names output values (up to 16); each returned variable must be named in the call, e.g. ... | routines:33989 | x0744 | RPSW
+- **routine** | `routine say_hello with name ... end routine` | Defines a routine whose parameters are named. | teaching_Sheerpower:60640 | x1241 | RPSW !
+- **routine (array parameters)** | `routine name with values(*), returning total` | A (*) parameter takes a whole array of any shape, always passed by reference with nothing copied; a with ... | routines:35047 | x0744 | RPSW !
+- **routine (default parameter values)** | `routine log_event with event$, stamp$ = fulltime$` | A with parameter may declare a default expression, evaluated fresh at every call that omits it; defaults may ... | ai_coding_guide:62098 | x1261 | RPSW !
+- **routine call** | `scramble_word with word$, returning scrambled$` | Calls a routine by name, passing input with a with list and receiving results through returning. | word_game:57534 | - | P !
+- **routine call (function form)** | `name(param = value, ...)` | A routine with exactly one returning parameter can be called as a function inside any expression; the name's ... | routines:34032 | - | P !
+- **routine call with cluster** | `calculate_calories with meal` | Calls a routine passing a cluster, which simplifies passing a lot of data. | lesson4:56169 | - | RP
+- **routine cluster parameter** | `routine_name with clustername, returning r` | Passes a cluster into a private or scoped routine by reference, so the routine can read and write its fields ... | pass_clusters:36489 | - | RP
+- **routine function parameter** | `routine name with n, function fn(), returning r` | A routine can take a function as a parameter (the function keyword and empty parentheses) and call it inside ... | routine_parameters_detail:36023 | x0789 | RP
+- **routine map** | `calc_tax(amount = array)` | Handing a whole array to a routine whose first with parameter takes a single value runs the routine once per ... | routines:35110 | - | P
+- **routine name$** | `routine do_it$ with text$, returning newtext$` | The definition may carry a call-site suffix; do_it$ and do_it name the same routine, and the suffix is ... | routines:34148 | x0795 | RPW
+- **routine once** | `routine name once [, with a, b, returning x, y]` | Declares a routine whose body executes only on the first call; later calls return immediately at entry and ... | routines:34615 | x0759 | RP
+- **routine returning array** | `routine name with n, returning sq(*)` | A returning array may be appended to, filled, grown or assigned an array expression inside the routine, and ... | routines:35069 | x0768 | RP
+- **routine typed parameters** | `routine do_it with string a, b, c` | A type name before parameter names fixes their type; the type is sticky and applies to following parameters ... | routine_parameters_detail:35674 | - | P !
+- **routine with** | `routine name with p1, p2` | WITH parameters are passed into the routine by reference and are read-only, so passing large data (e.g. a 4 ... | routine_parameters_detail:35654 | x0789 | RPSW
+- **routine with returning** | `routine area_of with width#, height#, returning area#` | Routine header with WITH input parameters and a RETURNING parameter; the # suffix states that each parameter ... | variable_names_and_data_types:2686 | x1261 | RPSW
+- **rset** | `RSET target$ = source$` | Overlays the source right-justified in the target's existing length, space-filling on the left; longer text ... | strings:24392 | x0512 | RPS
+- **run** | `run 'myprogram' (starts clean)` | Loads a program and starts it clean, with tracing off, so give a switch such as trace routine: on AFTER the ... | After Sheerpower is installed:50415 | x0533 | RPSW
+- **run 'name'** | `run 'path'` | Compiles and runs a saved program; .spsrc is the default file type, a logical name such as 'sptests:hello' ... | After Sheerpower is installed:49984 | x0533 | RPSW
+- **save** | `save 'name'` | Writes the program built at the console out to a file. [console command] | After Sheerpower is installed:49941 | - | PW
+- **scoped routine** | `scoped routine name ... end routine` | Like a private routine, but all non-static variables are cleared on entry and again on exit. | routines:34231 | - | PS
+- **select case** | `select case status$ ... case "open" ... end select` | Multi-way branch on a value; every select case should include case else. | ai_coding_guide:62360 | x0147 | RPSW !
+- **select case true** | `select case true ... case a > b` | Each CASE holds a Boolean expression and the first one that evaluates to TRUE runs; a clear alternative to a ... | conditionals:7692 | x0147 | RPW
+- **set # current** | `set #ch: current bookmark$` | Returns to a bookmarked record so the next line input re-reads it; since the bookmark is a byte offset ... | data_files:15496 | - | PSW
+- **set # data** | `set #data_ch: data ""` | Clears the contents of a data:// channel without closing and reopening it. | data_files:16050 | - | P
+- **set chart** | `set chart: point_radius 8, background_color 'green', link ...` | Modifies properties of the just-added data point or dataset (colors, point radius, dataset, tooltip, link) ... | charts:16894 | - | W
+- **set cluster** | `set cluster student: row 1` | Switches the current row of the cluster to the given row number. | lesson5:56332 | x1198 | RPSW
+- **set cluster->field: create** | `set word_counts->word$: create` | A write by a key that matches no row adds the row with the lookup field set to the key (instead of raising ... | cluster_arrays:18359 | x0401 | RPS
+- **set cluster->field: duplicates** | `set inventory->item_id$: duplicates` | Allows a write by a key matching several rows to write the first match (otherwise lookupdup is raised). | cluster_arrays:18378 | - | PS
+- **set cluster->field: exact** | `set inventory->item_id$: exact` | Makes string key lookups on that field require an exact-case match (lookups are case-insensitive by default). | cluster_arrays:18324 | - | PS
+- **set cluster->field: nocase** | `set inventory->item_id$: nocase` | Turns key lookups on that field back to case-blind. | cluster_arrays:18326 | - | PS
+- **set cluster: row** | `set cluster inventory: row 1` | Makes the given row the current row, so field references read and write that record. | cluster_arrays:18191 | x1198 | RPSW
+- **set error on** | `set error on` | Marks the routine as failed so that _error is true for the caller to check. | routines:34541 | x0754 | RS
+- **set icon** | `set icon "@todo.ico"` | Assigns a custom taskbar icon to the running application at runtime (relative or absolute path, no larger ... | deploying:41912 | x0916 | R
+- **set program timeout** | `set program timeout n` | Sets the program's run timeout (in the tutorial's hidden code). | aichat:32946 | - | P
+- **set querystring** | `set querystring expr$` | Makes getsymbol$() parse an arbitrary query string, handy for testing code that relies on getsymbol$(). | string_functions:26235 | x0533 | RW
+- **set seed** | `set seed 42` | Makes rnd() produce a repeatable sequence; drop it for different random values each run. | Sheerpower_statistics:19738 | x0437 | RPSW
+- **set session** | `set session 'github': base url$, headers h$, timeout n, cookies jar$ ...` | Names what every call to one service shares: a base URL prefixed to a name that starts with /, header lines ... | data_files:15799 | - | P
+- **set session call** | `set session 'api': base 'https://api.example.com', call get_token` | The refresh call: when an open in the session is answered 401 the routine runs once (the status in _integer ... | data_files:15851 | - | P
+- **set system, global** | `set system, global 'work_id': value uuid$` | Stores a string value in a shared global variable that persists as long as at least one Sheerpower program is ... | IPC-advanced:59882 | - | PSW
+- **set system, logical** | `set system, logical "project_path": value "C:\Projects\Sheerpower"` | Stores a logical, the most persistent symbolic value, which survives reboots and can represent file paths ... | Symbolic Value Pairs-advanced:59819 | - | PS
+- **set system, symbol** | `set system, symbol "last_backup": value "2024-10-10"` | Stores a symbol value that persists across processes until the next system reboot. | Symbolic Value Pairs-advanced:59789 | - | PS
+- **set system: clipboard** | `set system: clipboard str_expr` | Stores text in the clipboard. | ask_set_system:47382 | - | SW
+- **set system: comment** | `set system: comment str_expr` | Sets the Sheerpower operating-system comment for the process, a short label that can show up in system ... | ask_set_system:47222 | - | S
+- **set system: directory** | `set system: directory str_expr` | Sets the default device and directory. | ask_set_system:47266 | - | PS
+- **set system: icon** | `set system: icon filename$` | Sets the process or application icon shown in the OS UI; filename$ must be a fully-qualified path to an .ico ... | ask_set_system:47393 | - | -
+- **set system: process** | `set system: process str_expr` | Changes the operating-system process name so a clear name shows up in system tools. | ask_set_system:47014 | - | P
+- **set table** | `set table table_name: option` | Changes the current state, identity or position of an open table: find a record from a partial key, attach to ... | db_utils:44320 | - | PSW
+- **set table (key)** | `set table table_name, field key_field: key key_value` | Exact key lookup that makes the matching record current; intended for lookups that expect at most one record ... | database_practical:42723 | - | PSW
+- **set table (partial key)** | `set table table_name, field field_expr: partial key str_expr` | Retrieves the first record matching the partial key, useful when the user enters only the beginning of a ... | db_utils:44391 | - | PSW
+- **set table: extracted 0** | `set table table_name: extracted 0` | Resets the extracted-record count to zero so a new collection can be started; used with extract table ... | db_utils:44524 | - | P
+- **set table: id** | `set table table_name: id str_expr` | Attaches a table variable to a table ID previously retrieved with ask table: id, so generalized routines can ... | db_utils:44430 | - | PSW
+- **set table: pointer** | `set table table_name: pointer num_expr` | Sets the table to the nth record of the current extracted collection (random access); _extracted is 1 if the ... | db_utils:44482 | - | SW
+- **set window: typeahead** | `set window: typeahead 'Ada' + chr$(9) + '90210' + chr$(13)` | Puts keystrokes into the window's type-ahead buffer; the next input, input screen, menu or dialog box takes ... | making_console_applications:51899 | - | PS
+- **show all** | `show all` | Diagnostic dump that reports variables including their frozen state. | variable_names_and_data_types:3177 | - | PSW
+- **skill** | `skill / skill 3` | Lists the five skill levels -- 1 Beginner, 2 Newcomer, 3 Regular, 4 Fluent, 5 Expert -- with yours marked ... | After Sheerpower is installed:49121 | - | P
+- **sort ascending by** | `sort ascending by client(last)` | Sorts the collected records in ascending order by the expression. | database_practical:43350 | - | P
+- **sort by** | `sort by inventory->product_name$` | Inside collect, sorts the collected rows by the key; several sort by clauses make multiple keys; sorting is ... | cluster_arrays:18453 | x0406 | RPSW
+- **sort by (conditional)** | `if clients->home_zip$ = '' then sort by clients->bill_zip$ else sort ...` | sort by runs once per row, so it can sit inside an if and give different rows different key expressions; all ... | cluster_arrays:18562 | x0406 | RPSW
+- **sort by (expression)** | `sort descending by inventory->price * inventory->quantity` | The sort key can be any expression evaluated once per row; nothing is stored and no field changes. | cluster_arrays:18495 | x0406 | RPSW
+- **sort descending by** | `sort descending by products(price)` | Sorts the collected records in descending order by the expression. | database_practical:43054 | x0406 | RPW
+- **sort nocase by** | `sort nocase by inventory->product_name$` | Case-insensitive sort (default string sorting is case-sensitive); keyword order is fixed: sort [descending] ... | cluster_arrays:18539 | u1410 | RPS
+- **start chart** | `start chart: type "bar", title "...", output outfile$, y_axis_label ...` | Initializes a chart and sets global properties: type (bar, line, pie, doughnut, scatter), title, output file ... | charts:16892 | - | PW
+- **start chart stacked** | `start chart: ..., stacked true` | The stacked option creates stacked bars for multi-dataset bar graphs. | charts:17468 | - | P
+- **start timer** | `start timer` | Starts a timer used to measure how long code takes to run. | macros_and_blueprints:38185 | x0847 | RPSW
+- **static** | `static var` | Inside a scoped routine, preserves the variable across calls (also used for a persistent counter across ... | routines:34232 | - | PS
+- **stats off** | `stats off` | Stops the profiler's routine timers. | profiling:40679 | - | P
+- **stats on** | `stats on` | Starts the built-in profiler's routine timers (with debug on). | profiling:40642 | x0890 | RP
+- **step** | `step / step n` | Runs the next statement (or the next n) of a halted program and stops again, opening a Program Trace window ... | After Sheerpower is installed:50344 | x0152 | RPSW
+- **stop** | `stop` | Terminates the program with a normal shutdown (open files closed, buffers flushed, resources released); may ... | intro:247 | x0746 | RPSW
+- **string slice** | `s$[start:end]` | Reads the characters from start through end of a string, both ends included, counting from 1; a range that ... | string_functions:25059 | - | P !
+- **subject to** | `subject to / [label:] expr <= | >= | = expr` | Introduces the limits (constraints), one per line with <= (at most), >= (at least) or = (exactly); each must ... | maximize_and_minimize:12913 | x0267 | RP
+- **substring assignment** | `t$[3:4] = 'XY'` | Replaces a position range of a string with new text of any length (abcdefgh becomes abXYefgh); to replace ... | string_functions:25070 | x0523 | RPSW
+- **table(field)** | `print payroll(salary) / payroll(salary) = 1234.56` | Database access by table_name(field_name): reading fetches the current record (locking it if needed) and ... | lesson2:55427 | x0962 | RPSW
+- **then maximize / then minimize** | `then minimize steel_used = ...` | Adds a ranked goal: each earlier goal is solved first and its best value added as a limit, then the next goal ... | maximize_and_minimize:13165 | - | P
+- **trace off** | `trace off / trace routine: off` | Stops tracing and closes the trace window. | profiling:40787 | - | P
+- **trace on** | `trace on` | Opens the Program Trace window and logs every statement as it runs: the time, its MAIN.line label and the ... | profiling:40780 | - | P
+- **trace routine: on** | `trace routine: on / trace routine: off` | Logs one line per routine entered (its header, indented two spaces per call level) instead of every ... | After Sheerpower is installed:50356 | - | P
+- **try** | `try` | Typed at the console prompt: a short list of one-line programs to try -- counting, every square, the times ... | After Sheerpower is installed:49075 | u1436 | RPSW
+- **type** | `type real money` | Defines a custom data type based on a core type; custom types are enforced at compile time (assigning a MONEY ... | variable_names_and_data_types:3252 | x0025 | RPSW !
+- **type format** | `type format '$%.2m' money` | Defines a custom data type (here a formatted money type) that can be used in place of any primitive type. | lesson2:55590 | - | PSW
+- **type nodump** | `type nodump string secret` | Defines a secure custom type whose variables appear as <nodump> in debug and crash output, protecting secrets. | variable_names_and_data_types:3370 | x0031 | RP
+- **unfreeze** | `unfreeze timeout, api_base$` | Re-opens a frozen variable for writing, used for a small deliberate window such as reloading configuration ... | variable_names_and_data_types:3054 | - | P
+- **unlock all** | `unlock all` | Unlocks all tables. | database_practical:42680 | x0931 | RSW
+- **unlock all: commit** | `unlock all: commit` | Commits all writes for all tables; typically done at the top of transaction loops or at transaction ... | database_practical:42696 | x0933 | RW
+- **unlock table** | `unlock table payroll` | Explicitly unlocks a table. | database_practical:42667 | x0932 | RPSW
+- **unlock table: commit** | `unlock table payroll: commit` | Flushes all virtual (delayed) writes for a table and commits them to storage. | database_practical:42686 | x0932 | RPSW
+- **unoptimized** | `recursive routine factorial_of unoptimized, with n, returning result` | Written after a recursive routine's name: every call runs the routine. Without it, a recursive routine that ... | routines:35009 | - | P
+- **until** | `until condition` | Run-until-true condition; multiple UNTIL conditions may be placed anywhere inside a DO/LOOP to create ... | looping:7958 | x0155 | RPSW
+- **use** | `use` | Listed in the built-in abbreviation table as the expansion of u. | After Sheerpower is installed:49327 | x0132 | RPSW
+- **view** | `VIEW line$ INTO data$, PIECE sep$, MATCH idx` | Makes line$ a view of the idx-th piece of data$ delimited by sep$; VIEW-based parsing avoids unnecessary ... | vibe_programming:61330 | x1251 | RPSW
+- **view (chained)** | `view second$ into list$ piece ",", match 2` | Creates a view whose source is another view; the chain resolves to the original base string with composed ... | string_views:28407 | x0545 | RPSW
+- **view (cluster field)** | `view info->name$ into data$ between "name=", ";"` | Binds cluster fields as views into one string, turning it into a structured record parsed automatically ... | string_functions:25499 | x0536 | RPSW
+- **view (piece match)** | `VIEW first_name$ INTO csv_line$, PIECE ",", MATCH 1` | Creates a zero-copy window onto the Nth delimited piece of a source string; returns '' past the last piece ... | ai_coding_guide:62800 | x1292 | RPSW
+- **view between** | `VIEW view_var$ INTO base_var$ BETWEEN start_delim$, end_delim$` | Creates a live, zero-copy view of the text between two delimiters of a base string (the dynamic counterpart ... | string_functions:25317 | x0529 | RP
+- **view between balanced** | `VIEW v$ INTO base$, BETWEEN "[", "]" BALANCED` | Only with BETWEEN: views the outer region from the first start delimiter to its matching closing delimiter ... | string_views:29075 | x0529 | RP
+- **view between match** | `VIEW v$ INTO data$ BETWEEN "(", ")" MATCH n` | Makes the delimiter view return the Nth matching start/end pair instead of the first; highly optimized (about ... | string_functions:25421 | x0527 | RP
+- **view between notrim** | `VIEW v$ INTO data$ BETWEEN "[", "]" NOTRIM` | Keeps the exact characters between the delimiters instead of trimming leading and trailing spaces (the ... | string_functions:25431 | x0528 | RP
+- **view match** | `VIEW v$ INTO base$, BETWEEN ... | PIECE ..., MATCH match_expr` | Returns the Nth occurrence of the target region or piece instead of the first (default MATCH 1); highly ... | string_views:29060 | x0545 | RPW
+- **view mid** | `VIEW v$ INTO data$, MID 2, 3` | Creates a zero-copy window onto a position and length of a source string; evaluated lazily on first use ... | ai_coding_guide:63358 | x1291 | RPSW
+- **view mid match** | `VIEW v$ INTO source_var$, MID base_pos, record_len, MATCH index` | Treats the source as an array of fixed-width segments and views the Nth segment, for flat-file segments and ... | string_views:28875 | - | P
+- **view notrim** | `VIEW v$ INTO base$, BETWEEN ... | PIECE ..., NOTRIM` | Preserves leading and trailing spaces of the viewed text instead of trimming them (the default). | string_views:29068 | u1418 | RP
+- **view piece** | `VIEW view_var$ INTO base_var$, PIECE delim$ [, POSITION n] [, MATCH ...` | Exposes a zero-copy view of one delimiter-separated piece (dynamic PIECE$), a live CSV or line parser ... | string_views:29193 | x0545 | RPW
+- **view position** | `VIEW v$ INTO base$, BETWEEN ... | PIECE ..., POSITION position_expr` | Starts the delimiter or piece search at an arbitrary position instead of the first character; with PIECE, the ... | string_views:29054 | - | P
+- **when exception in** | `when exception in ... use ... end when` | Catches an exception raised in the protected block (e.g. a write to a frozen variable) and runs the USE block ... | variable_names_and_data_types:3023 | u1393 | RPSW
+- **when exception use** | `when exception use fix_average ... end when` | DETACHED handler: when an exception occurs in the protected block it calls a handler routine located ... | exceptions:46009 | u1446 | RPS
+- **where ... are decimal** | `where benches, stools are decimal` | Makes the listed unknowns measured amounts that may take fractional values (faster to solve); groups may be ... | maximize_and_minimize:12969 | x0249 | RP
+- **where ... are whole** | `where benches, stools are whole` | Lists the unknowns Sheerpower chooses and makes them whole numbers (found by a branch-and-bound search) ... | maximize_and_minimize:12907 | x0267 | RP
+- **while** | `while condition` | Run-while-true condition; multiple WHILE conditions may be placed anywhere inside a DO/LOOP to create ... | looping:7958 | x0776 | RPSW
+- **x(*) = v** | `myarray(*) = value` | Appends a value to an expandable array (inside a blueprint). | macros_and_blueprints:38431 | x0283 | RPSW
+- **yield** | `yield` | Suspends the routine and returns to the caller, preserving its execution state (locals, statics, position) ... | routines:35227 | x0776 | RPS
+- **|> (pipe into routine)** | `value |> routine_name(other = v)` | Passes the piped value to the routine's first declared with parameter (naming it too is a compile error); a ... | routines:34123 | x0744 | RP
+
+## Built-in functions
+
+- **abs()** | `abs(z)` | Absolute value; takes a complex number too (abs(3 + 4i) is 5). | variable_names_and_data_types:2796 | x0690 | RPSW
+- **acos()** | `acos(0)` | Returns the arccosine of a number (acos(0) = 1.5708, pi/2). | common_math_functions:33446 | x0708 | RPS
+- **aichat$()** | `answer$ = aichat$(prompt$ [, wrap_it])` | Sends a text prompt to an AI model and returns its response; wrap_it TRUE word-wraps the response to about 70 ... | aichat:32821 | - | X
+- **angle()** | `angle(x, y)` | Returns the angle from (0,0) to (x,y) in radians (angle(4, 9) = 1.15257). | common_math_functions:33465 | x0711 | RPS
+- **arg()** | `arg(z)` | The angle of a complex number in radians. | operators:6988 | x0131 | RP
+- **ascii()** | `ascii(str_expr)` | Returns the decimal ASCII value of the first character of the string. | string_functions:25133 | u1417 | RPSW
+- **asin()** | `asin(1)` | Returns the arcsine of a number (asin(1) = 1.5708, pi/2). | common_math_functions:33440 | x0707 | RPS
+- **atan()** | `atan(1)` | Returns the arctangent of a number (atan(1) = 0.7854, pi/4; atan(33) = 1.5405). ATN() is an older name for ... | common_math_functions:33452 | x0710 | RP
+- **atn()** | `print atn(1)` | An older name for ATAN(), the arctangent of a number (atn(1) = 0.785398163397448, the same as atan(1)). | common_math_functions:33452 | x0709 | RPS
+- **base64decode$()** | `base64decode$(str_expr)` | Decodes a Base64 encoded string back into its original plain text. | string_functions:25194 | u1417 | RPSW
+- **base64encode$()** | `base64encode$(str_expr [, boolean])` | Encodes a string in Base64; by default inserts a CR/LF every 76 characters, pass FALSE to suppress the ... | string_functions:25145 | u1417 | RPSW
+- **between$()** | `between$(answer$, 'user=', chr$(26))` | Returns the text between two delimiters; used to read one dialog field's value by its name, up to the ... | dialog_boxes:52373 | x0780 | RPSW
+- **ceil()** | `ceil(2.3)` | Returns the smallest integer greater than or equal to a number (ceil(-2.3) = -2). | common_math_functions:33503 | x0717 | RPSW
+- **change$()** | `change$(str_expr1, str_expr2 [, str_expr3])` | Replaces each character of str_expr1 found in str_expr2 with the corresponding character of str_expr3; the ... | string_functions:25594 | x0530 | RPSW
+- **charset$()** | `charset$([str_expr])` | Returns a named character set: UCASE, LCASE, DIGITS, CONTROL, PRINTABLE, ASCII7, BYTE (alias ASCII, the ... | string_functions:25609 | x0531 | RS
+- **chr$()** | `chr$(int_expr1 [, int_expr2])` | Returns the character for an ASCII value, repeated int_expr2 times if given. | string_functions:25657 | x0530 | RPSW
+- **clamp()** | `clamp(v, 0, 100) / clamp(v, lo_arr, hi_arr)` | Clamps values to a range; maps over an array, bounds single values or same-shape (or broadcast) arrays. | array_math:11223 | x0737 | RPSW
+- **compare()** | `outer(names$, names$, compare())` | Scores two strings 0 to 100 for similarity; a list of names against itself gives a similarity matrix with 100 ... | outer_product:13709 | x0287 | RPSW
+- **complex()** | `complex(re, im)` | Builds a complex value from its real and imaginary parts (the imaginary unit can also be written as a suffix ... | real_numbers:4429 | x0301 | RP !
+- **compress$()** | `compress$(text$)` | Compresses a string (any bytes) and returns the compressed bytes; the first byte says how; text that does not ... | string_functions:25671 | - | PS
+- **conj()** | `conj(z)` | Complex conjugate (conj(3 + 4i) is 3-4i). | real_numbers:4430 | x0061 | RP
+- **contains()** | `contains(str_expr1, str_expr2 [, exact: true])` | Returns TRUE if the first string contains the second, case-insensitive unless the named option exact: true ... | string_searching:29702 | x0564 | RPSW !
+- **convert$()** | `convert$(int_expr1 [, int_expr2, int_expr3])` | Converts an integer into a string of the given length (default four) and data type (1 integer, 7 COBOL ... | string_functions:25692 | - | S
+- **convert()** | `convert(str_expr [, int_flag])` | Converts a string holding a mapped integer back to a number; flag 1 = signed, 4 = big-endian (combine by ... | string_functions:25719 | x0532 | RS
+- **cos()** | `cos(pi / 6)` | Cosine; used to build a unit complex number for a rotation. Also takes a complex argument (computed in ... | complex_numbers:14234 | x0303 | RPS
+- **cosh()** | `print cosh(0) / print cosh(1)` | Returns the hyperbolic cosine of a number (cosh(0) = 1, cosh(1) = 1.54308063481524). | common_math_functions:33489 | x0715 | RPS
+- **cot()** | `print cot(pi / 4)` | Returns the cotangent of an angle in radians, which is 1 / tan() (cot(pi / 4) = 1). | common_math_functions:33435 | x0706 | RPS
+- **cpad$()** | `cpad$(text_str, size [, pad_str])` | Pads a string on both sides with the pad character (default space) to reach the given size. | string_functions:25852 | u1417 | RS
+- **csc()** | `print csc(pi / 2)` | Returns the cosecant of an angle in radians, which is 1 / sin() (csc(pi / 2) = 1). | common_math_functions:33430 | x0705 | RPS
+- **date$()** | `date$(days(date$) + 1)` | Converts a day number back to a date (YYYYMMDD); a second argument selects a format such as 3 (18-Sep-2026). | ai_coding_guide:63068 | x0680 | RPSW !
+- **day$()** | `day$(days)` | Returns the day of the week for a number of days since January 1, 1600. | date_time_functions:33130 | x0682 | RPS
+- **days()** | `days(end_date$) - days(start_date$)` | Converts a date to a day number, so date differences and offsets are done in days. | ai_coding_guide:63052 | x0680 | RPSW
+- **decimal()** | `decimal(x)` | Rounds a fraction to its sixteen-place decimal (decimal(divr(2, 3)) is 0.6666666666666667). | common_math_functions:33381 | x0697 | RPS
+- **decompress$()** | `decompress$(packed$)` | Restores the text compress$() packed, byte for byte; a string compress$() did not make (plain text, an empty ... | string_functions:25866 | - | PS
+- **deg()** | `print deg(pi) / print deg(pi / 4)` | Converts an angle in radians to degrees (deg(pi) = 180, deg(pi / 4) = 45). | common_math_functions:33470 | x0712 | RPS
+- **denominator()** | `denominator(x)` | The denominator of a fraction (denominator(divr(22, 7)) is 7); of a decimal, the denominator of its reduced ... | common_math_functions:33379 | x0697 | RP
+- **determinant()** | `determinant(a [, exact:])` | The determinant of a square matrix in exact arithmetic; zero means the rows are not independent and there is ... | array_math:10972 | x0210 | RP
+- **diophantine()** | `diophantine(a, c)` | Returns one whole-number solution of a . x = c (one equation or a system); raises catchable NOSOLUTION when ... | array_math:10856 | x0208 | RP
+- **div0()** | `div0(a, b)` | Division that returns 0 for division by zero instead of raising. | real_numbers:4390 | x0694 | RPSW
+- **div0inf()** | `div0inf(a, b)` | Division that produces the special values on purpose: _inf or -_inf for a nonzero number over zero, _nan for ... | real_numbers:4387 | x0695 | RP
+- **divr()** | `a = divr(1, 3)` | Asks for the exact fraction by name: a * 3 is exactly 1, and a prints as 0.3333333333333333 until ... | variable_names_and_data_types:2814 | x0050 | RP
+- **dot()** | `dot(a, b)` | The dot product: a single exact number, the sum of a(i) * b(i) over two arrays of the same count. | arrays:9455 | x0269 | RP
+- **dtype()** | `dtype(var)` | Mentioned as a runtime type-detection function for parameters. | routine_parameters_detail:36446 | - | SW
+- **edit$()** | `edit$(str_expr, int_expr)` | Performs editing operations chosen by summed values: 1 trim parity, 2 drop spaces/tabs, 4 drop CR LF FF ESC ... | string_functions:25880 | u1417 | RPS
+- **element$()** | `element$(str_expr1, num_expr [, str_expr2])` | Returns the Nth element of a separated list (default separator comma); an empty element between adjacent ... | string_functions:25930 | u1417 | RPSW !
+- **elements()** | `'the quick brown fox' |> elements(' ')` | Returns the number of delimited elements in a string (4 words with a space delimiter). | operators:6824 | x0123 | RPSW
+- **encode$()** | `encode$(num_expr, num_int)` | Converts a number to a string in the given base, 2 through 36. | string_functions:25961 | u1417 | RS
+- **endswith()** | `endswith(str_expr1, str_expr2 [, exact: true])` | Returns TRUE if the first string ends with the second, case-insensitive unless exact: true (or a bare TRUE ... | string_searching:29745 | x0565 | RPSW
+- **enumname$()** | `enumname$(enum_type, value)` | Converts an assigned enum value to its member name (uppercase); if no member has the value, returns the value ... | enum:23661 | x0498 | RP
+- **enumvalue()** | `enumvalue(enum_type, name$)` | Converts a member name (case-insensitive) to its assigned value and sets _integer to the member's ordinal ... | enum:23760 | x0503 | RP
+- **eval()** | `d = eval(c$)` | Compiles the expression held in a string into bytecode at runtime and evaluates it; the result can be any ... | strings_as_code:46633 | x1009 | RPSW
+- **exceptionname$()** | `exceptionname$(extype)` | Returns the name of an exception type, e.g. INFEASIBLE. | maximize_and_minimize:13371 | x0267 | RPS
+- **exceptiontype()** | `exceptiontype('exactchoice')` | Returns the exception type number for a named exception, for comparison with extype. | array_math:10558 | x1314 | RPSW
+- **exp()** | `exp(1i)` | Exponential; takes a complex number, computed in doubles. | complex_numbers:14503 | x0312 | RPS
+- **f$()** | `f$('Her name was [[name$]], she was [[years]] old.')` | Builds text with values in place: any expression goes between [[ ]], numbers come out as str$() writes them ... | strings:24827 | u1416 | RP
+- **fft()** | `fft(x, digits: 30)` | Runs the transform with the 30-digit kernel end to end instead of doubles; ifft(fft(x, digits: 30), digits ... | complex_numbers:14357 | x0311 | RP
+- **fftfreq()** | `fftfreq(n, spacing)` | Gives the frequency that goes with each element of an n-point transform (with spacing the sample spacing ... | complex_numbers:14323 | x0309 | RP
+- **fileinfo$()** | `fileinfo$('@..\safe\safe_bible.txt', 'contents')` | Reads the entire contents of a file into a string variable. | strings:24353 | u1416 | RPSW
+- **filespec$()** | `filespec$('@go_button.bmp')` | Resolves a file that sits next to the program to its full path. | dialog_boxes:52803 | - | PSW
+- **filter$()** | `filter$(' hello world ', 'trim; ucase')` | The string altered by filter words applied left to right, semicolon-separated: ucase, lcase, capitalize ... | string_functions:25996 | - | P
+- **filter()** | `filter(values, mask [, axis: n] [, partial: true])` | The values whose mask element is 1, as a 1-D array in storage order; with axis: n the mask picks whole rows ... | arrays:9502 | x0166 | RPW !
+- **findfile$()** | `findfile$(str_expr [, int_expr])` | Returns the full specification of the first file matching a name or wildcard pattern, or the Nth match with ... | file_information:30346 | x0585 | RPSW
+- **finditem()** | `finditem(names$, 'fig' [, nth [, method]])` | The index of an element in a STRING array, 0 when absent; case-blind unless method is 1; nth picks the nth ... | arrays:9681 | - | PS
+- **findrow()** | `findrow(inventory->product_name$, item_to_find$)` | Returns the row number of the first record matching the value and makes that row current, or 0 if none; the ... | cluster_arrays:19147 | x0426 | RPSW !
+- **findrowby()** | `findrowby(orders->customer$, "Acme Corp", orders->product$, "widgets")` | Given two field/value pairs, finds the row where both fields match (no combined key needed), starting from ... | searching_cluster_data:21501 | - | PSW
+- **findvalue$()** | `findvalue$(search_field, search_value, found_result, not_found_result ...` | String version of findvalue(): returns a string found_result from the matched row, or not_found_result; the $ ... | searching_cluster_data:21736 | - | PW
+- **findvalue()** | `findvalue()` | Collapses a single-row lookup and a field read into one expression. | ai_coding_guide:61753 | - | PW
+- **findvalueby$()** | `findvalueby$(field1, value1, field2, value2, found_result ...` | String-returning version of findvalueby(): two-field match, returns a string found_result or the not-found ... | searching_cluster_data:21993 | - | P
+- **findvalueby()** | `findvalueby(field1, value1, field2, value2, found_result ...` | Like findvalue(), but the row must match both field/value pairs (findrowby()'s two-field intersecting ... | searching_cluster_data:21993 | - | PS
+- **floor()** | `floor(2.7)` | Returns the largest integer less than or equal to a number (floor(-2.7) = -3). | common_math_functions:33509 | x0718 | RPS
+- **format$()** | `format$(expr, str_expr)` | Formats an expression of any type with a mask ('@', '<', '>' copy characters untranslated; overflow gives ... | string_functions:26028 | u1417 | RPSW
+- **fp()** | `fp(238.304)` | Returns the fractional part of a number (fp(238.304) = .304). | common_math_functions:33390 | x0698 | RPS
+- **fraction$()** | `fraction$(divr(100, 3))` | Returns an exact fraction as text (fraction$(divr(100, 3)) gives 100/3); listed with the Exact Fractions ... | real_numbers:4198 | x0057 | RP
+- **fraction()** | `fraction(num_expr, max_denominator)` | Returns the exact fraction closest to the number whose denominator is at most max_denominator (1 to ... | string_functions:26121 | x0057 | RP
+- **fulltime$()** | `fulltime$(seconds, format)` | Returns the date and time for a count of seconds since January 1, 1600: 0 CCYYMMDD HHMMSS, 1 MMDDCCYY HHMMSS ... | date_time_functions:33135 | x0686 | RPS
+- **gcd()** | `gcd(num_expr1, num_expr2)` | Returns the greatest common divisor of two whole numbers of any exact size, never negative; gcd(0,b)=|b| ... | string_functions:26142 | x0206 | RP
+- **geodistance()** | `geodistance(here$, "34.0522,-118.2437")` | Returns the distance between two "lat,lon" coordinate strings; parsing is cached by string content, so a ... | string_internals-advanced:58317 | x1216 | RPS
+- **getsymbol$()** | `getsymbol$(str_expr1 [, boolean])` | Returns the value of a script variable or symbol: HTML form fields, env: CGI variables, os: operating-system ... | string_functions:26197 | x0533 | RPSW
+- **getvalue$()** | `getvalue$(text$, word_number)` | An older name for getword$(), the same function and arguments; write getword$(). | string_functions:26670 | - | P
+- **getword$()** | `getword$(str_expr1 [, num_expr [, str_expr2]])` | Returns the word at the given position, words delimited by spaces and punctuation or a custom separator. | string_functions:26654 | u1417 | RPSW
+- **hash$()** | `hash$(str_expr1 [, str_expr2 [, int_expr] [, 3]])` | Converts plain text into a one-way hashed eight-byte value, optionally salted with text and an integer; 3 ... | string_functions:26680 | - | PS
+- **htmldecode$()** | `htmldecode$(str_expr)` | Decodes an HTML encoded string into its characters. | string_functions:26727 | - | PS
+- **htmlencode$()** | `htmlencode$(str_expr)` | Encodes a string for safe use in HTML, replacing special characters with HTML equivalents. | string_functions:26739 | - | PSW
+- **ifft()** | `ifft(z, digits: 30)` | The inverse transform run in the 30-digit kernel. | complex_numbers:14359 | x0311 | RP
+- **imag()** | `imag(z)` | Returns the imaginary part of a complex number as an ordinary number. | operators:6983 | x0131 | RP
+- **int()** | `int(148.8432)` | Returns the whole portion of a REAL number as a REAL. | common_math_functions:33515 | x0719 | RPSW
+- **integer()** | `integer(4 + (993 * 35))` | Converts a numeric expression to an integer, ROUNDING to the nearest whole number (a half away from zero ... | common_math_functions:33520 | x0720 | RP
+- **inverse()** | `inverse(a, exact: true|false)` | inverse(a) is solve(a, identity), so past 64 by 64 a plain call raises EXACTCHOICE; exact: false factors in ... | array_math:10578 | x0212 | RP
+- **ip()** | `ip(1234.56)` | Truncates the decimal portion of a number (ip(1234.56) = 1234). | common_math_functions:33531 | x0721 | RPS
+- **isfinite()** | `isfinite(x)` | Tests whether a REAL holds a finite value (not NaN or Inf). | variable_names_and_data_types:2810 | - | P
+- **isin()** | `isin(values, set [, nocase: false])` | A mask with 1 where an element of values occurs anywhere in set; with filter() and unique(stack()) gives ... | array_math:12014 | x0245 | RP
+- **isinf()** | `isinf(var)` | Returns 1 for both _inf and -_inf (and 0 otherwise), unlike x = _inf which tests one sign only. | real_numbers:4410 | x0130 | RP
+- **isnan()** | `where(isnan(x), 0, x)` | Tests for NaN; used to fill holes before an fft(), which refuses NaN or infinity. | complex_numbers:14467 | x0130 | RPW
+- **isrounded()** | `isrounded(x)` | Tests for the ROUNDED mark directly: 1 when Sheerpower had to round in making x, else 0. | variable_names_and_data_types:2834 | x0049 | RP
+- **item()** | `item(str_expr1, str_expr2)` | Returns the number of the first list item matching the whole or partial name given; a negative number if more ... | string_searching:29789 | u1419 | RS
+- **join$()** | `join$(sort(names$), " | ")` | Joins an array's elements into one string with the given separator. | strings:24793 | x0518 | RP
+- **join()** | `l = join(sentence$, fullname$, ' was here')` | Concatenates its arguments into the first (target) string efficiently and returns the resulting length. | strings:24362 | x0510 | RPSW
+- **json$()** | `json$(clustername [, row_option])` | Converts a Sheerpower cluster into a formatted JSON string: a JSON object named after the cluster, each field ... | json:32396 | x0663 | RPS
+- **jsonutil$()** | `jsonutil$(json_input$ [, json_pointer$])` | Parses, extracts and manipulates JSON data; the optional JSON Pointer path (e.g. '/name') selects a specific ... | json:32560 | x0670 | RPSW
+- **lattice()** | `lattice(a)` | Returns the directions (one per row) along which every other whole-number solution lies; every solution is ... | array_math:10858 | x0208 | RP
+- **lbound()** | `lbound(grid, 2)` | The low index of a dimension of an array (a 1-D array needs no dimension number; a 2-D array must give one ... | arrays:9672 | - | P
+- **lcase$()** | `lcase$(guess$) = lcase$(word$)` | Converts strings to lowercase so the comparison is case-insensitive. | word_game:57540 | x0158 | RPSW
+- **lcm()** | `lcm(num_expr1, num_expr2)` | Returns the least common multiple of two whole numbers, computed exactly; 0 when either is 0, never negative ... | string_functions:26862 | - | P
+- **left$()** | `outer(names$, x, left$())` | Takes a string and a number and returns the leftmost characters; a length past the end gives the whole word. ... | outer_product:13682 | x0285 | RPSW
+- **len()** | `len(str_expr)` | Returns the length of a string as an integer. | string_functions:26882 | x0522 | RPSW !
+- **log()** | `log(z)` | Natural logarithm; takes a complex number, with the cut along the negative real axis; log(0 + 0i) raises ... | complex_numbers:14503 | x0313 | RPS
+- **log10()** | `print log10(1000) / print log10(0.001)` | Returns the base-10 (common) logarithm of a number (log10(1000) = 3, log10(0.001) = -3). | common_math_functions:33692 | x0734 | RPS
+- **log2()** | `print log2(8) / print log2(1024)` | Returns the base-2 logarithm of a number (log2(8) = 3, log2(1024) = 10). | common_math_functions:33686 | x0733 | RPS
+- **lpad$()** | `lpad$(text_str, size [, pad_str])` | Pads a string on the left with the pad character (default space) to the given size. | string_functions:26894 | u1417 | RPS
+- **lstsq()** | `lstsq(a, y [, exact:])` | The least-squares best fit of an overdetermined full-rank system in one call, the named form of ... | array_math:10716 | - | P
+- **ltrim$()** | `ltrim$(str_expr)` | Removes leading spaces, control characters, and DEL. | string_functions:26909 | u1417 | RPSW
+- **marginal()** | `marginal(c, a, b [, minimum: true] [, exact:])` | The array form of the limits' worth: one value per row for maximizing c; minimum: true for minimizing; no ... | maximize_and_minimize:13438 | - | P
+- **match()** | `match(str_expr1, str_expr2 [, TRUE])` | Compares a string with each element of a list and returns the number of the matching element ... | string_searching:29803 | u1419 | RPSW
+- **matchword()** | `matchword(str_expr1, str_expr2 [, num_expr])` | Case-insensitively finds a word or phrase and returns its character position (0 if not found), from an ... | string_functions:26921 | u1419 | RPS
+- **matmul()** | `matmul(a, b)` | Matrix multiply with exact sums: RxK by KxC gives RxC; a vector stands for a column on the right and a row on ... | arrays:9449 | x0194 | RP
+- **max()** | `max(a, b) / max(v, 0) / max(v)` | With an array, maps element-wise (paired arrays or a broadcast number, e.g. clip at zero); one-argument ... | array_math:11227 | x0218 | RPSW !
+- **maximize()** | `maximize(profit, usage, have [, exact:] [, whole: true])` | Returns the plan (every quantity >= 0) that maximizes profit . x while staying within usage x <= have, by the ... | array_math:10769 | x0205 | RP !
+- **maxsize()** | `maxsize(scores)` | How many elements the array's current allocation holds before it must grow: a fixed array its size, an ... | arrays:9672 | - | P
+- **mid$()** | `mid$(names$, 1, 2) / mid$(words$, starts, lens)` | Substring; maps over a string array, any argument may be an array paired element by element. | array_math:11281 | x0220 | RPSW
+- **mid()** | `mid(text$, starting, _integer)` | Returns a substring at a start position and length (used to show the matched text). | regular_expressions:30549 | x0591 | RPS
+- **min()** | `outer(x, y, min())` | As the op of outer(), gives the smaller of each pair. | outer_product:13615 | x0735 | RPSW
+- **minimize()** | `minimize(cost, usage, have [, exact:] [, whole:])` | The same call as maximize() for a cost to keep down. | array_math:10790 | - | P
+- **mod()** | `mod(v, 3) / mod(a, b)` | Modulus; maps over an array, the second argument a single value or same-shape array. | array_math:11222 | x0699 | RPSW
+- **nameof$()** | `nameof$(variable [, flag])` | Returns a variable's name in uppercase: the base name by default, the full name with prefixes, subscripts and ... | string_functions:27106 | - | P
+- **near()** | `near(a, b, places) / near(a, b, digits: n)` | Tolerant comparison: 1 when a and b differ by less than one unit in the given decimal place (counted as ... | common_math_functions:33559 | x0726 | RP !
+- **norm()** | `norm(a [, kind: manhattan|max] [, axis: n] [, keep: true])` | Vector length (Frobenius norm of a matrix); kind gives the Manhattan or max norm; axis gives per-row / ... | arrays:9472 | x0213 | RP
+- **numerator()** | `numerator(x)` | The numerator of a fraction (numerator(divr(22, 7)) is 22); of a decimal, the numerator of its reduced ... | common_math_functions:33379 | x0697 | RP
+- **ord()** | `ord(str_expr)` | Returns the ASCII value of the first character of the string. | string_functions:27312 | - | PS
+- **ordname$()** | `ordname$(int_expr)` | Returns the character for an ASCII value. | string_functions:27324 | - | S
+- **outer()** | `outer(a, b, op)` | Pairs every element of a with every element of b through op (a bare operator, a built-in, or your own ... | arrays:9479 | x0275 | RP
+- **overlay()** | `start_pos = overlay(mybuf$, subtext$, start_pos)` | Overlays subtext$ into a fixed-length string buffer at start_pos and returns the next position; over 30 ... | string_functions:25038 | x0521 | RPS
+- **parse$()** | `parse$(str_expr)` | Splits a string into tokens separated by single spaces, uppercasing letters outside quotes and dropping tail ... | string_functions:27336 | u1417 | RPSW
+- **pattern()** | `pattern(str_expr1, str_expr2)` | Returns the position of the first text matching a pattern, or 0. Pattern syntax: ? any character, * repeats ... | string_searching:29876 | x0566 | RS
+- **phash$()** | `phash$(str_expr [, int_expr])` | Creates a salted, URL-safe 24-character hash of a string, optionally randomized by an integer. | string_functions:27356 | u1417 | RPSW
+- **piece$()** | `piece$(str_expr1, num_expr [, str_expr2])` | Returns the Nth piece of a string separated by str_expr2; with no separator, the Nth LINE (each line feed ... | string_functions:27370 | u1411 | RPSW
+- **pieces()** | `pieces(str_expr1 [, str_expr2])` | Returns the number of pieces in a string separated by str_expr2; with no separator, the number of LINES (each ... | string_functions:27370 | - | PSW
+- **pos()** | `pos(names$, "b") / pos(words$, needles$)` | Position of a substring; over string arrays gives a REAL array. | array_math:11283 | x0220 | RPSW !
+- **pretty$()** | `pretty$(str_expr)` | Converts text so control characters show as names or hex values, displayable on any terminal. | string_functions:27394 | - | PS
+- **quote$()** | `quote$(str_expr)` | Encloses a string in double quotes (doubling embedded quotes); an already quoted string is left as is but ... | string_functions:27407 | u1424 | RPSW
+- **rad()** | `print rad(180)` | Converts an angle in degrees to radians, the unit sin(), cos() and tan() take (rad(180) = 3.1415926535897932 ... | common_math_functions:33476 | x0713 | RPS
+- **real()** | `real(age%)` | Converts a numeric expression to a REAL value. | common_math_functions:33665 | u1428 | RPSW
+- **reduce$()** | `reduce$('bookkeeper')` | Collapses every run of the same character next to itself to one ('bokeper'); only adjacent repeats, case ... | string_functions:27420 | - | P
+- **reduce()** | `reduce(a, op [, axis: n] [, keep: true])` | Folds an array down to a scalar, or one dimension smaller along an axis (reduce(g, +) row sums, axis: 1 ... | arrays:9483 | x0297 | RP
+- **regexreplace$()** | `regexreplace$(text_str, expr_str, new_str)` | Replaces text matched by a regular expression with new text; details on the regular expressions page. | string_functions:27487 | x0593 | RPS
+- **regexsearch()** | `starting = regexsearch(text$, expr$ [, group])` | Searches text for a regular expression and returns the match location (0 if none), putting the match length ... | regular_expressions:30544 | x0591 | RPS
+- **remainder()** | `remainder(-4, 3)` | Returns the remainder of a division operation (remainder(-4, 3) = -1). | common_math_functions:33400 | x0700 | RPS
+- **repeat$()** | `repeat$(str_expr, int_expr)` | Returns the string repeated int_expr times. | string_functions:27440 | u1417 | RPSW
+- **replace$()** | `replace$(str_expr1, str_expr2 [, str_sep1] [, str_sep2])` | Replaces patterns in a string using find=value pairs; pairs are separated by a comma (str_sep1) and ... | string_functions:27453 | x0538 | RPSW
+- **reshape()** | `reshape(a, d1 [, d2 ...] [, recycle: true])` | Pours an array's elements into a new shape. | arrays:9458 | x0166 | RP
+- **right$()** | `right$(str_expr, int_expr)` | Returns the rightmost int_expr characters of a string. | string_functions:27505 | u1417 | RPS
+- **rnd()** | `fill dice with 1000 of rnd(6) / rnd(v)` | Random number; drawn per element in a fill, and rnd(v) draws once per element of an array. | array_math:9972 | x0183 | RPSW
+- **rndbytes$()** | `rndbytes$(length)` | Returns a string of exactly length cryptographically secure random binary bytes generated by the operating ... | rndbytes:32959 | x0679 | RP
+- **round()** | `round(employee(annual_salary) / 12, 2)` | Rounds a value to the given number of decimal places. | expressions:5823 | x0722 | RPSW !
+- **rpad$()** | `rpad$(text_str, size [, pad_str])` | Pads a string on the right with the pad character (default space) to the given size. | string_functions:27519 | u1417 | RPS
+- **rtfdecode$()** | `rtfdecode$(str_expr)` | Decodes text that was encoded for RTF files. | string_functions:27546 | - | PS
+- **rtfencode$()** | `rtfencode$(str_expr)` | Encodes text for use in RTF files so it does not interfere with RTF code. | string_functions:27534 | - | PS
+- **rtrim$()** | `rtrim$(str_expr)` | Removes trailing white space from a string. | string_functions:27558 | u1417 | RPSW
+- **same()** | `same(str_expr1, str_expr2 [, bool_expr])` | Returns TRUE if two strings are the same, case-insensitive and after trimming leading and trailing spaces; a ... | string_searching:30051 | x0575 | RPSW
+- **scan()** | `scan(str_expr1, str_expr2 [, int_expr])` | Scans for the characters of the second string, which need not be side by side in the first, and returns the ... | string_searching:30080 | u1419 | RPS
+- **sec()** | `print sec(0)` | Returns the secant of an angle in radians, which is 1 / cos() (sec(0) = 1). | common_math_functions:33425 | x0704 | RPS
+- **seconds()** | `now_secs = seconds('') / seconds('20221225 0000')` | Calculates a time in seconds for the %t format; '' gives the current time. | sprintf:30917 | x0609 | RPSW
+- **seg$()** | `seg$(str_expr, int_expr1, int_expr2)` | Extracts the substring from a starting position to an ending position. | string_functions:27571 | u1417 | RPS
+- **seq()** | `seq(n) / seq(lo, hi [, step])` | The numbers lo..hi (or 1..n) as a REAL array; v[seq(1, 3)] is v[1:3] but seq() can count backwards, skip, or ... | array_math:11443 | x0184 | RP
+- **sgn()** | `print sgn(-238) / print sgn(0) / print sgn(238)` | Returns the sign of a number: -1 for a negative number, 0 for zero, and 1 for a positive number. | common_math_functions:33328 | x0692 | RPS
+- **sha256$()** | `sha256$(str_expr [, key_str])` | Returns a 64-character lowercase hex SHA-256 digest; with a key, the HMAC-SHA256 signature (an empty key is ... | string_functions:27586 | - | P
+- **sin()** | `sin(pi / 6)` | Sine; used to build a unit complex number for a rotation. Also takes a complex argument (computed in doubles). | complex_numbers:14234 | x0303 | RPS
+- **sinh()** | `print sinh(0) / print sinh(1)` | Returns the hyperbolic sine of a number (sinh(0) = 0, sinh(1) = 1.1752011936438). | common_math_functions:33483 | x0714 | RPS
+- **size()** | `size(shopping_list$)` | Returns how many items an array holds (for an expandable array, how many have been appended). | arrays:8700 | x0163 | RPSW !
+- **skip()** | `skip(str_expr1 [, str_expr2] [, int_expr])` | Returns the position of the character following the last skipped character (skipping characters in the given ... | string_searching:30095 | u1419 | RPS
+- **solve()** | `solve(a, b, exact: true|false)` | Past 64 unknowns a plain call raises EXACTCHOICE; exact: true runs the exact elimination at any size, exact ... | array_math:10525 | x0198 | RP
+- **sort$()** | `sort$(str_expr1 [, str_expr2])` | Sorts the elements of a separated list by ASCII value (default separator comma). | string_functions:27661 | - | P
+- **sort()** | `sort(a [, descending: true] [, nocase: false])` | Returns the sorted array; works on string arrays as on numbers. | arrays:9511 | x0059 | RP
+- **sortindex()** | `sortindex(len(names$), descending: true)` | Returns the order of positions that sorts the array; used to index names$ by length. | Sheerpower_statistics:19712 | x0435 | RP
+- **space$()** | `space$(num_expr)` | Returns a string of num_expr spaces. | string_functions:27675 | x0521 | RPSW
+- **split()** | `words$ = split(str_expr [, delim$])` | Returns a string array of the verbatim pieces between delimiters (default ",", any length); empty text gives ... | string_functions:27687 | x0167 | RPW
+- **sprintf$()** | `sprintf$('The age was: %h%i', tab_pos, age)` | Horizontal tab: the argument is the column position to move to (position one is the first). | sprintf:31156 | x0622 | RPSW !
+- **sqrt()** | `print sqrt(64) / print sqrt(2) / print sqrt(-4 + 0i)` | Returns the square root of a number. A perfect square comes back exact (sqrt(64) = 8), any other root correct ... | common_math_functions:33318 | x0691 | RPW
+- **stack()** | `stack(a, b, ... [, axis: 2])` | Places arrays one under the other as rows (a vector is a row), or side by side with axis: 2. | arrays:9522 | x0245 | RP
+- **startswith()** | `startswith(str_expr1, str_expr2 [, TRUE])` | Returns TRUE if the first string begins with the second, case-insensitive unless a TRUE third argument; a ... | string_searching:30109 | - | PSW
+- **stats$*()** | `stats$sum(sales->amount, collected: true)` | Named option on every statistics function: compute over the current collection instead of every row; used ... | Sheerpower_statistics:19836 | x0441 | RPW
+- **stats$argmax()** | `stats$argmax(scores [, axis: n])` | The 1-based storage-order position of the maximum (first on ties, _integer holds it too); axis: 1 gives the ... | array_math:11897 | x0241 | RP
+- **stats$argmin()** | `stats$argmin(scores)` | The position of the minimum (first on ties). | array_math:11915 | x0241 | RP
+- **stats$autocorr()** | `stats$autocorr(cluster->var [, lag])` | Autocorrelation at the given lag (default 1), -1 to 1. | Sheerpower_statistics:20882 | u1407 | RP
+- **stats$cagr()** | `stats$cagr(cluster->var, years)` | Compound annual growth rate as a fraction, (last/first)^(1/years) - 1, from the first and last values. | Sheerpower_statistics:20773 | u1407 | RP
+- **stats$cdf()** | `stats$cdf(x, df)` | Chi-square cumulative distribution at x; takes plain numbers, no collection flag. | Sheerpower_statistics:20916 | u1407 | RP
+- **stats$chi2()** | `stats$chi2(observed, expected)` | Chi-squared goodness-of-fit statistic (df = n-1); the p-value is left in _real. | Sheerpower_statistics:20628 | u1407 | RP
+- **stats$cov()** | `stats$cov(var1, var2 [, 1])` | Sample covariance; pass 1 for the population form. | Sheerpower_statistics:20738 | u1407 | RP
+- **stats$cv()** | `stats$cv(cluster->var)` | Coefficient of variation as a ratio (not a percent), computed on |mean|; a zero mean raises NOSTATISTIC. | Sheerpower_statistics:20356 | u1407 | RP
+- **stats$cvrisk()** | `stats$cvrisk(cluster->var, 0.95)` | Conditional VaR (expected shortfall): the mean of the values at or below the VaR cutoff, same sign convention ... | Sheerpower_statistics:20470 | u1407 | RP
+- **stats$drawdown()** | `stats$drawdown(cluster->var)` | Maximum peak-to-trough decline as a positive number, a fraction of the peak when the peak is positive, else ... | Sheerpower_statistics:20429 | u1407 | RP
+- **stats$ema()** | `stats$ema(cluster->var, alpha)` | Final exponentially smoothed value after walking the series in row order; larger alpha reacts faster. | Sheerpower_statistics:20865 | u1407 | RP
+- **stats$fcdf()** | `stats$fcdf(x, df1, df2)` | F-distribution CDF at x; plain numbers, no collection flag. | Sheerpower_statistics:20934 | u1407 | RP
+- **stats$fpskew_sample()** | `stats$fpskew_sample(cluster->var)` | Original name of stats$skew_sample (Fisher-Pearson sample skewness), still accepted. | Sheerpower_statistics:20529 | u1407 | RP
+- **stats$ftest()** | `stats$ftest(var1, var2)` | F-statistic comparing variances, always the larger variance over the smaller; the p-value is left in _real. | Sheerpower_statistics:20646 | u1407 | RP
+- **stats$gmean()** | `stats$gmean(cluster->var)` | Geometric mean; non-positive values raise NOSTATISTIC, and a set containing 0 returns 0. | Sheerpower_statistics:20555 | u1407 | RP
+- **stats$hmean()** | `stats$hmean(cluster->var)` | Harmonic mean; non-positive values raise NOSTATISTIC. | Sheerpower_statistics:20568 | u1407 | RP
+- **stats$iqr()** | `stats$iqr(cluster->var)` | Interquartile range, P75 minus P25 under the same interpolation as stats$percentile. | Sheerpower_statistics:20343 | u1407 | RP
+- **stats$ks_test()** | `stats$ks_test(cluster->var)` | Kolmogorov-Smirnov D statistic against a normal distribution fitted to the sample; the p-value is left in ... | Sheerpower_statistics:20989 | u1407 | RP
+- **stats$kurtosis()** | `stats$kurtosis(cluster->var)` | Population excess kurtosis (3 already subtracted, so a normal distribution scores 0). | Sheerpower_statistics:20503 | u1407 | RP
+- **stats$kurtosis_sample()** | `stats$kurtosis_sample(cluster->var)` | Sample excess kurtosis (the G2 estimator). | Sheerpower_statistics:20537 | u1407 | RP
+- **stats$linreg()** | `stats$linreg(x, y)` | Slope of the linear regression; the intercept is left in _real. | Sheerpower_statistics:20668 | u1407 | RP
+- **stats$linreg_r2()** | `stats$linreg_r2(x, y)` | R-squared of the regression fit, 0 to 1 (the squared Pearson correlation, computed exactly). | Sheerpower_statistics:20685 | - | P
+- **stats$mad()** | `stats$mad(cluster->var)` | Raw median absolute deviation, with no 1.4826 normal-consistency scaling. | Sheerpower_statistics:20372 | u1407 | RP
+- **stats$max()** | `stats$max(v) / stats$max(sales, axis: 2)` | The largest element of an array, or the largest in each row/column with axis:. | array_math:11256 | x0429 | RPW
+- **stats$mean()** | `stats$mean(cluster->var or array [, collected: true])` | Arithmetic mean of an array or cluster column; raises a catchable exception (no statistic) on an empty set. | Sheerpower_statistics:20236 | x0441 | RPW
+- **stats$median()** | `stats$median(cluster->var)` | Middle value; with an even count, the exact average of the two middle values. | Sheerpower_statistics:20250 | x0429 | RPW
+- **stats$midrange()** | `stats$midrange(cluster->var)` | Average of the maximum and minimum values. | Sheerpower_statistics:20281 | u1407 | RP
+- **stats$min()** | `stats$min(cluster->var or array)` | Lowest value in an array or column; with two scalar arguments it is the scalar form. | Sheerpower_statistics:20194 | x0429 | RPW
+- **stats$mode()** | `stats$mode(cluster->var)` | Most frequent value; when several values tie, the smallest of them is returned. | Sheerpower_statistics:20266 | x0437 | RPW
+- **stats$moment()** | `stats$moment(cluster->var, n)` | The Nth central moment, mean((x - mean)^n); moments 1 to 4 are computed exactly and rounded once, so the 1st ... | Sheerpower_statistics:20807 | u1407 | RP
+- **stats$ncdf()** | `stats$ncdf(x)` | Standard normal CDF at x; plain number, no collection flag. | Sheerpower_statistics:20950 | u1407 | RP
+- **stats$pcorr()** | `stats$pcorr(var1, var2)` | Pearson correlation of two arrays or columns paired position by position. | Sheerpower_statistics:20706 | u1407 | RP
+- **stats$percentile()** | `stats$percentile(cluster->var, 50)` | The given percentile, linearly interpolated at position p/100 x (n-1) (same as Excel PERCENTILE.INC, NumPy, R ... | Sheerpower_statistics:20389 | u1407 | RP
+- **stats$range()** | `stats$range(cluster->var)` | Difference between the maximum and minimum values. | Sheerpower_statistics:20209 | u1407 | RP
+- **stats$rank()** | `stats$rank(cluster->var, row)` | 1-origin rank (smallest = 1) of the value in the given cluster row; tied values share their average rank. | Sheerpower_statistics:20900 | u1407 | RP
+- **stats$rms()** | `stats$rms(cluster->var)` | Root mean square. | Sheerpower_statistics:20793 | u1407 | RP
+- **stats$sem()** | `stats$sem(cluster->var)` | Standard error of the mean: sample standard deviation divided by the square root of n. | Sheerpower_statistics:20326 | u1407 | RP
+- **stats$sharpe()** | `stats$sharpe(cluster->var, risk_free)` | Sharpe ratio: (mean - risk_free) / sample standard deviation, with no annualization. | Sheerpower_statistics:20755 | u1407 | RP
+- **stats$skew()** | `stats$skew(cluster->var)` | Population skewness (distribution symmetry). | Sheerpower_statistics:20488 | u1407 | RP
+- **stats$skew_sample()** | `stats$skew_sample(cluster->var)` | Fisher-Pearson sample skewness (the G1 estimator), with a small-sample correction. | Sheerpower_statistics:20519 | - | P
+- **stats$spearman()** | `stats$spearman(var1, var2)` | Spearman's rank correlation (rho) with proper tie handling. | Sheerpower_statistics:20721 | u1407 | RP
+- **stats$stddev()** | `stats$stddev(cluster->var [, 1])` | Sample standard deviation; pass 1 as the second argument for the population form. | Sheerpower_statistics:20296 | x0429 | RPW
+- **stats$sum()** | `stats$sum(a, axis: n [, keep: true])` | Sums a whole array, or one sum per row or column with axis (axis: 1 per column, axis: 2 per row) ... | arrays:9491 | x1300 | RP
+- **stats$tcdf()** | `stats$tcdf(t, df)` | Student-t CDF at t; plain numbers, no collection flag. | Sheerpower_statistics:20970 | u1407 | RP
+- **stats$trimmed_mean()** | `stats$trimmed_mean(cluster->var [, pct])` | Mean after trimming pct percent from each end; the percentage is optional. | Sheerpower_statistics:20828 | u1407 | RP
+- **stats$ttest()** | `stats$ttest(var1, var2)` | Welch's t-statistic comparing two means (unequal variances); the two-sided p-value is left in _real. | Sheerpower_statistics:20583 | u1407 | RP
+- **stats$ttest_paired()** | `stats$ttest_paired(var1, var2)` | Paired t-statistic on the row-by-row differences (df = n-1); the two-sided p-value is left in _real. | Sheerpower_statistics:20605 | u1407 | RP
+- **stats$var()** | `stats$var(cluster->var [, 1])` | Sample variance; pass 1 for the population variance. | Sheerpower_statistics:20313 | u1407 | RP
+- **stats$vrisk()** | `stats$vrisk(cluster->var, 0.95)` | Value at Risk: the value at the (1-c) tail of the data with its own sign, using the nearest-rank convention ... | Sheerpower_statistics:20448 | u1407 | RP
+- **stats$weighted_mean()** | `stats$weighted_mean(vals, weights)` | sum(value x weight) / sum(weight): one column weighted by another. | Sheerpower_statistics:20847 | u1407 | RP
+- **stats$zscore()** | `stats$zscore(cluster->var, row)` | Standardized score of the value in the given cluster row, computed against the sample standard deviation. | Sheerpower_statistics:20415 | u1407 | RP
+- **str$()** | `str$(num_expr)` | Converts a number to a string without adding extra spaces. | string_functions:27713 | x0522 | RPSW !
+- **tab()** | `print 'Passion fruit vine'; tab(14); 'purple'` | Moves to column n (1 is the first column); output past column n moves to the next line, then to column n. | string_functions:27740 | x0539 | RPS
+- **tan()** | `tan(0.7854)` | Returns the tangent of an angle. | common_math_functions:33419 | x0703 | RPS
+- **tanh()** | `print tanh(0) / print tanh(1)` | Returns the hyperbolic tangent of a number, always between -1 and 1 (tanh(0) = 0, tanh(1) = ... | common_math_functions:33495 | x0716 | RPS
+- **time$()** | `time$(seconds)` | Returns the time for a number of seconds since midnight (time$(1800) gives 00:30). | date_time_functions:33232 | x0689 | RPS
+- **time()** | `time(5)` | Returns seconds since Sheerpower was invoked. | date_time_functions:33218 | x0688 | RPSW
+- **transpose()** | `transpose(a)` | Swaps rows and columns (r x c becomes c x r). | arrays:9461 | x0197 | RP
+- **trim$()** | `trim$(padded$) / trim$(split(line$))` | Trims; maps over a string array (the cleaned form of split's verbatim pieces). | array_math:11280 | x0219 | RPSW !
+- **truncate()** | `truncate(123.45678, 2)` | Cuts off digits after a specified decimal place (truncate(123.45678, 4) = 123.4567). | common_math_functions:33541 | x0723 | RPS
+- **typeof$()** | `typeof$(variable)` | Returns "Name:..., Dtype:..." plus Ctype for a custom type and *Nodump*; boolean arrays report Dtype:Boolean ... | string_functions:27767 | x0541 | RPSW
+- **ubound()** | `ubound(grid, 1)` | The high index of a dimension of an array; for an expandable array the last index appended (= size(x) when it ... | arrays:9672 | - | P
+- **ucase$()** | `ucase$(trim$(full_name$))` | Converts a string to upper case (used as a pipeline step). | operators:6807 | x0122 | RPSW
+- **unique$()** | `unique$(str_expr)` | Keeps each character where it FIRST appears and drops every later repeat, in the original order (not sorted) ... | string_functions:27878 | u1417 | RP
+- **unique()** | `unique(a [, nocase: false])` | The distinct elements in first-occurrence order; size(unique(a)) is the count. | arrays:9516 | x0245 | RP
+- **unquote$()** | `unquote$(str_expr)` | Removes one set of quotes from a quoted string; an unquoted string is unchanged. | string_functions:27900 | - | S
+- **urldecode$()** | `urldecode$(str_expr)` | Decodes a URL-encoded string: + back to spaces and hex values to characters. | string_functions:27926 | - | PS
+- **urlencode$()** | `urlencode$('Widget assembly')` | Encodes a value for a form-style name=value&name=value body. | data_files:15886 | - | PSW
+- **uuid$()** | `uuid$ / uuid$(format [, length])` | Generates a universally unique identifier: format 0 (default) a 22-byte URL-safe base64 form, 1 hex in RFC ... | string_functions:27939 | u1417 | RPS
+- **val()** | `real = val(string$ [, Nth] [, string_options])` | Converts a string into a real number; by default a string that is not purely numeric raises an exception ... | string_real:31708 | x0639 | RPSW !
+- **valid()** | `valid(text$, "filter ...; restore; rule")` | RESTORE in a rule chain restores the original pre-filter text so later rules validate the untouched input. | validation_rules:32287 | x0654 | RPSW
+- **where()** | `where(imag(z) < 0, z, conj(z))` | Chooses element by element between two arrays by a mask; works on complex arrays. | complex_numbers:14282 | x0305 | RP
+- **wrap$()** | `wrap$(str_expr, int_expr1, int_expr2)` | Returns the text word-wrapped between a left and right margin. | string_functions:28008 | x1099 | RPS
+- **xlate$()** | `xlate$(str_expr1, str_expr2)` | Translates characters of a string through a translation table string. | string_functions:28027 | - | PS
+- **xor$()** | `xor$(str1$, str2$)` | Returns the bit-wise XOR of two strings, useful for one-time-pad encryption (XOR again with the key to ... | string_functions:28043 | x0679 | RS
+
+## System variables
+
+- **_** | `_ = join(a$, 'Admin: ', name$)` | Reserved throw-away identifier for numbers: assign to it to run an expression while visibly and intentionally ... | variable_names_and_data_types:2570 | x1293 | RPSW
+- **_$** | `_$ = expression$` | Reserved throw-away identifier for strings: assign to it to deliberately discard a string return value. | variable_names_and_data_types:2570 | - | P
+- **_back** | `_back` | True after Escape or the Up arrow at a prompt; the variable is left empty. | making_console_applications:50917 | - | PS
+- **_debug** | `_debug` | Is debugging on? 1 (true) after debug on and 0 (false) after debug off; a program started with run ... | profiling:40826 | x0895 | RP
+- **_elapsed** | `print 'Elapsed time in seconds: '; _elapsed` | The time in seconds elapsed since the timer was started. | sieve:57073 | x1206 | RPSW
+- **_error** | `if _error then` | Set to TRUE if an exception has occurred. | exceptions:46022 | u1446 | RPSW
+- **_exit** | `print _exit` | Set to true when the person leaves a menu with Ctrl+Z; test it before trusting the result. | making_console_applications:51423 | - | PS
+- **_extracted** | `_extracted` | The number of rows in the collected view after end collect (filtered count; with unique, the number of ... | cluster_arrays:18691 | x0423 | RPSW
+- **_gid$** | `_gid$` | Returns a 30-character browser-safe identifier combining a YYYYMMDD date prefix and a unique ID, sortable by ... | string_functions:28063 | x0542 | RPSW
+- **_headless** | `_headless` | Is the program running under /headless? 1 there, 0 in a window -- a true-or-false value like _debug; a ... | ai_coding_guide:64830 | x1366 | RP
+- **_help** | `_help` | True after the person typed HELP or pressed the Help button; test it before _back and _exit, since one answer ... | making_console_applications:50918 | - | S
+- **_inf** | `_inf / -_inf` | The special REAL values plus and minus infinity; they propagate by IEEE 754 rules (_inf + 1 is _inf, _inf - ... | real_numbers:4360 | x0061 | RP
+- **_integer** | `if _integer = -1 then exit for` | Set to -1 when a view's MATCH is not found as the view resolves (used to detect end of file). | string_views:29563 | u1418 | RPSW !
+- **_kernel** | `_kernel` | Built-in macro naming the operating system the program is compiled under, WINDOWS or LINUX, for code such as ... | conditional_compilation:38661 | x0856 | RP
+- **_nan** | `x = _nan` | The NaN (not a number) special value a REAL can hold; comparing against the literal _nan with = <> < <= > >= ... | operators:6907 | x0130 | RP
+- **_pointer** | `_pointer` | Counts the rows as they are delivered in a for each (1 is the newest row of a reverse collect). | cluster_arrays:18872 | - | PSW
+- **_real** | `_real` | A last-result value set by the statistics functions, overwritten by the next built-in that sets it. | data_files:15750 | u1407 | RP
+- **_reply$** | `_reply$` | The whole line the user typed at the last INPUT or LINE INPUT, whatever the statement made of it: 42 for a ... | user_input:50677 | - | P
+- **_routine$** | `_routine$` | Returns the name of the routine that contains the reference, determined at run time; useful for logging and ... | string_functions:28118 | x0543 | RP
+- **_spversion** | `_spversion` | Built-in macro holding the Sheerpower version and build as V[major].[minor], for version-specific code. | conditional_compilation:38650 | x0855 | RPS
+- **_status** | `_status` | The most recent operating system error status value. | exceptions:46036 | - | P
+- **_string$** | `print "detail: "; _string$` | Inside a USE block, holds the detail behind the exception message from the place that raised it (e.g. ... | exceptions:46068 | x1003 | RP
+- **_terminator$** | `_terminator$` | The key that ended the last input: RETURN for Enter, a control key as CTRL/G. | making_console_applications:51087 | - | P
+- **_test** | `_test` | Built-in macro set to 1 if option test on has been specified (or sp4gl /test was used), else 0. | conditional_compilation:38669 | - | PS
+- **_user** | `_user` | Built-in macro containing the developer's login name. | conditional_compilation:38656 | x0855 | RPS
+- **_yield** | `_yield` | Boolean status: true if the most recent routine call or continue exited via a yield (and can be continued) ... | routines:35423 | x0776 | RP
+- **cstring$** | `call 'getenv' ('SystemRoot') then cstring$` | The null-terminated text at the char* address the last DLL call left in _integer (a call made WITHOUT the ... | ext_calls:37057 | - | P
+- **date** | `date` | Prints today's date as a number. | date_time_functions:33240 | x0680 | RPSW
+- **date$** | `date$` | Returns today's date in the default format YYYYMMDD. | date_time_functions:33105 | x0680 | RPSW !
+- **day$** | `day$` | Returns today's day of the week. | date_time_functions:33129 | x0682 | RPSW
+- **eps** | `abs(a - b) <= eps` | The smallest step a REAL takes in its exact range, 0.0000000000000001 (one unit of the 16-decimal grid): the ... | common_math_functions:33336 | x0693 | RPS
+- **exlabel$** | `exlabel$` | The location in the code where the exception occurred: the routine and the line within it, MAIN.13 or ... | exceptions:46026 | - | PSW
+- **exline** | `print 'line '; exline; ' of '; exlabel$` | The line of the most recent exception as a number -- the part after the dot of exlabel$ (MAIN.13 -> 13 ... | exceptions:46029 | - | P
+- **extext$** | `print extext$` | Holds the text of the error message of the exception that was caught. | fancy_calculator:56943 | x1225 | RPSW
+- **extype** | `extype -4031` | The exception type number; -4031 is Invalid input dialogbox format. | dialog_box_reference:53341 | x0267 | RPSW
+- **false** | `false` | Built-in macro representing the boolean value 0. | conditional_compilation:38682 | x0657 | RPSW
+- **fulltime$** | `fulltime$` | The current date and time; as a parameter default it is freshly current on every call. | ai_coding_guide:62063 | x1265 | RPSW
+- **label_worth** | `boards_worth` | When every unknown is decimal, each label gets a second variable, the label with _worth on the end: how much ... | maximize_and_minimize:13277 | x0263 | RP
+- **main$ prefix** | `main$variable` | Prefix that lets a private, scoped or local routine explicitly access a global variable. | routines:34228 | x0758 | RPS
+- **pi** | `pi` | A built-in value that is already there to use; giving the name a new value would silently change it for the ... | variable_names_and_data_types:2886 | x0040 | RPS
+- **systext$** | `systext$` | The operating system's description of the error, based on _STATUS. | exceptions:46038 | - | PS
+- **time** | `time` | Prints the current time value. | date_time_functions:33267 | x0689 | RPSW
+- **time$** | `time$` | Returns the current time of day in HH:MM:SS format. | date_time_functions:33231 | x0689 | RPS
+- **true** | `true` | Built-in macro representing the boolean value 1. | conditional_compilation:38677 | x0324 | RPSW
+- **uuid$** | `myid$ = uuid$` | Returns a unique identifier string. | IPC-advanced:59886 | u1417 | RPS
+
+## Compiler directives
+
+- **%++** | `%++ statement` | Marks code compiled when the %defined condition is true. | conditional_compilation:38627 | x0859 | RPS
+- **%--** | `%-- statement` | Marks code compiled when the %defined condition is false. | conditional_compilation:38628 | x0859 | RPS
+- **%>>** | `%>> statement` | Marks code compiled unconditionally within a %defined block. Stray %++, %-- or %>> without a preceding ... | conditional_compilation:38629 | x0859 | RPS
+- **%compile** | `%compile "Client: Acme Corp"` | Embeds custom text (client names, license keys, expiration dates, feature flags) into the tamper-resistant ... | deploying:42215 | x0920 | R
+- **%debug** | `%debug statement` | Debug code that is allowed, warned about, and then blocked across the development-to-production lifecycle ... | appendix_main_features:1789 | - | P
+- **%defined** | `%defined macro_name ... %end defined` | Begins a conditional-compilation block that checks whether a macro is defined (true if it is). | conditional_compilation:38626 | x0859 | RPS
+- **%defined compare** | `%defined macro_name oper 'string' | 42 | macro_arg` | Compares a macro's value against a string constant, a numeric constant, or another macro's value with =, != ... | conditional_compilation:38731 | x0859 | RPS
+- **%end defined** | `%end defined` | Closes the %defined block. | conditional_compilation:38630 | x0859 | RPS
+- **%end text** | `%end text` | Ends a %text block; case-regardless and may be indented. | strings:24729 | x0516 | RPS
+- **%expand off** | `%expand off` | Ends the expanded-view region started by %expand on. | macros_and_blueprints:38062 | - | PS
+- **%expand on** | `%expand on ... %expand off` | Toggles display of the expanded code of macros and blueprints during code validation (SPDEV or Visual Studio ... | macros_and_blueprints:38056 | - | PS
+- **%generate** | `%generate blueprintname with arg1, arg2, ...` | Generates a separate copy of the blueprint code for each argument, with the placeholders replaced by that ... | macros_and_blueprints:37699 | x0833 | RPS
+- **%generate sequence placeholders** | `%generate name with ID__, ID__` | A %generate parameter ending in one or more underscores gets sequence numbers in their place, starting at 1 ... | macros_and_blueprints:37897 | x0833 | RPS
+- **%include** | `%include '@..\safe\safe_common'` | Tells the compiler to insert the contents of another file at that point in the program; by default it shares ... | include_files:37422 | u1434 | RPSW
+- **%include conditional:** | `%include conditional: 'file'` | Tells the compiler to proceed even if the include file is missing or cannot be opened, enabling conditional ... | include_files:37443 | u1434 | RPSW
+- **%include once:** | `%include once: "common.inc"` | Ensures the file is included only once, even if referenced multiple times directly or indirectly, avoiding ... | include_files:37448 | u1434 | RPSW
+- **%test** | `%test statement` | Mentioned as a unit-testing directive (see the unit_testing tutorial). | conditional_compilation:38635 | x0885 | RS
+- **%test %include** | `%test %include 'file.spinc'` | Conditionally compiles and runs an include file of testing code only in test mode. | unit_testing:40190 | u1438 | RPSW
+- **%test_ignore** | `%test_ignore statement` | Mentioned as a unit-testing directive (see the unit_testing tutorial). | conditional_compilation:38636 | u1438 | RS
+- **%text** | `form$ = %text trim ... %end text` | Everything between %text and %end text is the string verbatim, so a dialog definition reads like the form it ... | dialog_boxes:52369 | x1284 | RP
+- **%text trim** | `help$ = %text trim ... %end text` | Like %text, but removes the leading indentation all non-blank lines share (the least-indented line sets the ... | strings:24746 | x0516 | RP
+- **%todo** | `%TODO the discount routine also needs ...` | Records something noticed but deliberately left alone, so it is not lost and not mixed into the current ... | ai_coding_guide:64217 | x1344 | RP
+- **/merge** | `sp4gl programname /merge` | Compiler command-line option that writes programname_merge.spsrc: the main program with every %include file ... | include_files:37547 | - | P
+- **@macro_name** | `@macro_name [(placeholder=value, ...)]` | Expands a macro inline; a parenthesized list of placeholder=value pairs substitutes into its placeholders. ... | macros_and_blueprints:38034 | x0842 | RPS
+- **[[ ]]** | `[[ code ]]` | In a Sheerpower script run through the SPINS webserver, anything between double brackets is Sheerpower code ... | browser_scripting:53495 | u1450 | RPSW
+- **[[%spscript]]** | `[[%spscript]] ... [[/%spscript]]` | Inside script code, everything between the pair is raw HTML sent directly to the browser; each marker must be ... | browser_scripting:53583 | - | SW
+- **[[=expr]]** | `[[=i*j]]` | Inside a script, outputs the value of the expression into the HTML (a bare [[j]] is also shown substituting a ... | browser_scripting:53601 | u1450 | RP
+- **[[expression]]** | `[[word$]]` | Inside a [[%spscript]] block, inserts a Sheerpower expression's value inline without breaking the HTML. | htmx_fastcgi_dictionary:54858 | x0852 | RPSW
+- **blueprint** | `blueprint name ... end blueprint` | Defines a template for larger, structured blocks of code; placeholders are written [[placeholder]]. | macros_and_blueprints:37695 | x0828 | RPS
+- **blueprint extends** | `blueprint new extends base ... end blueprint` | Defines a blueprint whose content is appended after the base blueprint's content when code is generated. | macros_and_blueprints:37768 | x0834 | RPS
+- **blueprint placeholder formatting** | `[[placeholder.lcase]] / [[placeholder.ucase]] / [[placeholder.ccase]]` | Replaces the placeholder with the lowercase, uppercase, or capitalized (first letter upper, rest lower) ... | macros_and_blueprints:37844 | x0833 | RPS
+- **blueprint prepends** | `blueprint new prepends base ... end blueprint` | Defines a blueprint whose content is inserted before the base blueprint's content when code is generated. | macros_and_blueprints:37789 | x0830 | RPS
+- **macro** | `macro name ... end macro` | Defines a multi-line macro; placeholders are [[name]] and may have defaults ([[name=default]]) used when no ... | macros_and_blueprints:38030 | x0836 | RPS
+

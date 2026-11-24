@@ -1,0 +1,468 @@
+# Sheerpower traps: wrong forms and silent surprises, every one verified on the engine
+
+A WRONG FORM is refused by the compiler (its message is
+quoted); a SILENT TRAP compiles and runs -- its real output is shown.  Look here BEFORE writing a statement
+from the habits of another language.
+
+## Wrong statement shapes
+
+- **+=** -- += reads the target and then writes it, so a function in its subscript would run twice: put that value in a variable first
+  - wrong: `dim counts(6) \ counts(rnd(6)) += 1 \ print counts(1)`
+  - the compiler: Syntax error -- Help>> += reads the target and then writes it, so a function in its subscript would run twice -- put that value in a variable first and use the variable as the subscript
+  - right: `dim counts(6) \ roll = rnd(6) \ counts(roll) += 1 \ print counts(roll)`
+- **+=** -- a string takes only += (it adds the text to the end); -= *= /= ^= are for numbers
+  - wrong: `name$ = 'ab' \ name$ -= 'b' \ print name$`
+  - the compiler: Data type mismatch -- Help>> a string takes only += (it adds the text to the end) -- -= is for numbers
+  - right: `name$ = 'ab' \ name$ += 'c' \ print name$`
+- **++** -- there is no -- ; write count -= 1
+  - wrong: `count = 5 \ count-- \ print count`
+  - the compiler: Syntax error -- Help>> -- does not exist -- to subtract 1 write  x -= 1
+  - right: `count = 5 \ count -= 1 \ print count`
+- **++** -- ++ is a statement, not an expression
+  - wrong: `count = 1 \ total = count++ \ print total`
+  - the compiler: Syntax error -- Help>> ++ is a statement, not an expression -- write  x = n + 1  (or  n++  on its own line)
+  - right: `count = 1 \ count++ \ total = count \ print total`
+- **if** -- equality is a single =
+  - wrong: `size = 3 \ if size == 3 then print 'three'`
+  - the compiler: An expression is missing or must follow a comma or a trailing comma needs to be continued with a & -- Help>> == is not an operator -- a single = both assigns and compares, so write  if x = 1 then
+  - right: `size = 3 \ if size = 3 then print 'three'`
+- **elseif** -- ELSEIF is one word
+  - wrong: `size = 3 \ if size = 1 then \   print 'one' \ else if size = 3 then \   print 'three' \ end if`
+  - the compiler: Syntax error -- Help>> ELSEIF is one word -- ELSE IF starts a nested one-line IF, whose statement must follow THEN on the same line
+  - right: `size = 3 \ if size = 1 then \   print 'one' \ elseif size = 3 then \   print 'three' \ end if`
+- **end if** -- a one-line IF takes no END IF
+  - wrong: `size = 3 \ if size = 3 then print 'three' \ end if`
+  - the compiler: END IF without matching IF at MAIN.4 -- Help>> an IF with its statement after THEN is complete on that line and takes no END IF -- for a block IF, put the statement on the line after THEN
+  - right: `size = 3 \ if size = 3 then print 'three'`
+- **if expression** -- an IF expression needs its ELSE value
+  - wrong: `size = 3 \ label$ = if size = 1 then 'one' \ print label$`
+  - the compiler: Syntax error -- Help>> an IF expression needs its ELSE value -- as in  x = if test then 1 else 0
+  - right: `size = 3 \ label$ = (if size = 1 then 'one' else 'many') \ print label$`
+- **if expression** -- there is no ? : operator -- the IF expression chooses a value
+  - wrong: `size = 3 \ label$ = size > 1 ? 'many' : 'one' \ print label$`
+  - the compiler: Data type mismatch -- Help>> expected a string expression, but got a numeric one (str$() converts a number to text)
+  - right: `size = 3 \ label$ = (if size > 1 then 'many' else 'one') \ print label$`
+- **for** -- the TO is required
+  - wrong: `for idx = 1 10 \   print idx \ next idx`
+  - the compiler: Syntax error -- Format>> for index = start to end [step s] Fix>> the TO is missing
+  - right: `for idx = 1 to 10 \   print idx \ next idx`
+- **next** -- NEXT names its loop variable
+  - wrong: `for idx = 1 to 3 \   print idx \ next`
+  - the compiler: Invalid NEXT variable -- Help>> NEXT names the index of the FOR loop it closes:  next idx
+  - right: `for idx = 1 to 3 \   print idx \ next idx`
+- **next** -- NEXT must name the open FOR's variable
+  - wrong: `for idx = 1 to 3 \   print idx \ next other`
+  - the compiler: Invalid NEXT variable -- Help>> NEXT OTHER does not match the open FOR IDX -- loops nest, so the inner FOR closes first
+  - right: `for idx = 1 to 3 \   print idx \ next idx`
+- **iterate for** -- skip an iteration with ITERATE FOR in a FOR loop, ITERATE DO in a DO loop; CONTINUE belongs to exception handlers
+  - wrong: `for idx = 1 to 3 \   if idx = 2 then continue \   print idx \ next idx`
+  - the compiler: RESUME, RETRY, CONTINUE, or EXIT HANDLER not within handler at MAIN.3 -- Help>> CONTINUE, RESUME and RETRY resume after an exception inside a USE block -- to skip to the next loop iteration use  iterate for / iterate do
+  - right: `for idx = 1 to 3 \   if idx = 2 then iterate for \   print idx \ next idx`
+- **do** -- a loop is DO WHILE ... LOOP
+  - wrong: `count = 0 \ while count < 3 \   count++ \ wend`
+  - the compiler: Unrecognized statement -- Help>> there is no WEND -- a loop is  do while cond ... loop
+  - right: `count = 0 \ do while count < 3 \   count++ \ loop`
+- **select case** -- a comparison in a CASE is CASE IS > 5
+  - wrong: `size = 7 \ select case size \ case size > 5 \   print 'big' \ case else \   print 'small' \ end select`
+  - the compiler: Syntax error -- Help>> CASE compares the SELECT value to this value, so  case x > 5  tests whether x equals (x > 5) -- for a condition write  case is > 5  (or  select case true  with  case x > 5)
+  - right: `size = 7 \ select case size \ case is > 5 \   print 'big' \ case else \   print 'small' \ end select`
+- **routine call** -- a routine is called by its name alone
+  - wrong: `call do_stuff \ stop \ routine do_stuff \   print 'x' \ end routine`
+  - the compiler: Quotes are required -- Help>> CALL is for a DLL entry point and its name must be quoted:  call "name"(args) -- to call a Sheerpower routine just write its name:  do_stuff
+  - right: `do_stuff \ stop \ routine do_stuff \   print 'x' \ end routine`
+- **routine call** -- no parentheses on a statement-form call
+  - wrong: `do_stuff() \ stop \ routine do_stuff \   print 'x' \ end routine`
+  - the compiler: Unrecognized statement -- Help>> a statement that starts with a name is an assignment, so = was expected here, found 'end of line' -- if the name was meant as a keyword, check its spelling
+  - right: `do_stuff \ stop \ routine do_stuff \   print 'x' \ end routine`
+- **routine** -- a routine name must contain an underscore
+  - wrong: `taxes \ stop \ routine taxes \   print 'x' \ end routine`
+  - the compiler: Unrecognized statement -- Help>> a name alone on a line calls a routine, but only names with an underscore are calls (TAXES -> do_TAXES); a variable needs  = value
+  - right: `do_taxes \ stop \ routine do_taxes \   print 'x' \ end routine`
+- **routine** -- a COMMA separates the WITH list from RETURNING, in the header and at the call
+  - wrong: `calc_tax with amount 100 returning tax owed \ print owed \ stop \ routine calc_tax with amount, returning tax \   tax = amount * 0.1 \ end routine`
+  - the compiler: Unrecognized statement -- Help>> a comma goes between the with part and returning:  calc_tax with amount 100, returning tax owed
+  - right: `calc_tax with amount 100, returning tax owed \ print owed \ stop \ routine calc_tax with amount, returning tax \   tax = amount * 0.1 \ end routine`
+- **routine** -- the = binding form is for WITH parameters only
+  - wrong: `calc_tax with amount 100, returning tax = owed \ print owed \ stop \ routine calc_tax with amount, returning tax \   tax = amount * 0.1 \ end routine`
+  - the compiler: Unrecognized statement -- Help>> expected a parameter name here, found '=' (parameters are plain names:  with amount, rate, returning total)
+  - right: `calc_tax with amount 100, returning tax owed \ print owed \ stop \ routine calc_tax with amount, returning tax \   tax = amount * 0.1 \ end routine`
+- **routine** -- a call binds by the parameter's NAME
+  - wrong: `show_it with wrong_name 5 \ stop \ routine show_it with amount \   print amount \ end routine`
+  - the compiler: Routine SHOW_IT, Parameter WRONG_NAME -- Inconsistent ROUTINE parameter passing. -- Help>> SHOW_IT has no parameter WRONG_NAME -- its parameters are:  AMOUNT
+  - right: `show_it with amount 5 \ stop \ routine show_it with amount \   print amount \ end routine`
+- **routine** -- WITH parameters are read-only
+  - wrong: `show_it with amount 5 \ stop \ routine show_it with amount \   amount = amount + 1 \   print amount \ end routine`
+  - the compiler: Routine WITH parameters cannot be modified.  Parameter name: AMOUNT
+  - right: `show_it with amount 5 \ stop \ routine show_it with amount \   bigger = amount + 1 \   print bigger \ end routine`
+- **routine** -- a WITH array parameter (values(*)) is read-only too -- passed by reference, but no element store, append, fill, redim or whole-array assignment; to change or grow the caller's array, pass it under RETURNING: routine push_it, returning values(*)
+  - wrong: `dim pile(*) \ fill pile with 1, 2, 3 \ push_it with values pile \ print pile \ stop \ routine push_it with values(*) \   values(*) = 4 \ end routine`
+  - the compiler: Routine WITH parameters cannot be modified.  Parameter name: VALUES
+  - right: `dim pile(*) \ fill pile with 1, 2, 3 \ push_it returning values pile \ print pile \ stop \ routine push_it, returning values(*) \   values(*) = 4 \ end routine`
+- **recursive routine** -- only a RECURSIVE ROUTINE may call itself -- a plain routine calling itself is a compile error; a tail call (the last step calls itself and hands its answers straight back) has no depth limit, other self-calls nest up to 100,000 routine calls and then raise the catchable MANYGOSUBS
+  - wrong: `print fact_of(5) \ stop \ routine fact_of with n, returning result \   if n <= 1 then \     result = 1 \   else \     result = n * fact_of(n - 1) \   end if \ end routine`
+  - the compiler: A routine that calls itself must be a RECURSIVE ROUTINE -- Help>> FACT_OF calls itself -- only a RECURSIVE ROUTINE may call itself: write  recursive routine fact_of
+  - right: `print fact_of(5) \ stop \ recursive routine fact_of with n, returning result \   if n <= 1 then \     result = 1 \   else \     result = n * fact_of(n - 1) \   end if \ end routine`
+- **routine** -- a string parameter takes text: str$() a number (OPTION PERMISSIVE keeps the old conversion)
+  - wrong: `show_name with name$ 50 \ stop \ routine show_name with name$ \   print name$ \ end routine`
+  - the compiler: Routine SHOW_NAME, Parameter NAME$ -- Expected type string, got real -- Fix>> pass text -- str$(value) turns a number into text (OPTION PERMISSIVE keeps the old silent conversion)
+  - right: `show_name with name$ str$(50) \ stop \ routine show_name with name$ \   print name$ \ end routine`
+- **operators** -- \ is the statement separator, not integer division
+  - wrong: `total = 7 \ half = total \ 2 \ print half`
+  - the compiler: Unrecognized statement -- Help>> a statement that starts with a name is an assignment, so = was expected here, found 'end of line' -- if the name was meant as a keyword, check its spelling
+  - right: `total = 7 \ half = int(total / 2) \ print half`
+- **operators** -- two statements on one line are separated by \
+  - wrong: `first = 1 : second = 2 \ print first + second`
+  - the compiler: Unrecognized statement -- Help>> unexpected ':' after a complete statement -- two statements on one line need a \ between them
+  - right: `first = 1 \ second = 2 \ print first + second`
+- **operators** -- two statements on one line need a \ between them
+  - wrong: `count = 1 count = 2 \ print count`
+  - the compiler: Unrecognized statement -- Help>> unexpected 'count' after a complete statement -- two statements on one line need a \ between them
+  - right: `count = 1 \ count = 2 \ print count`
+- **call** -- a DLL routine cannot be passed an array or an array element: copy the element into a variable of its type, pass that, copy it back
+  - wrong: `library 'msvcrt.dll' \ dim stamps%(3) \ call '_time32' (stamps%(2) by ref) \ print stamps%(2)`
+  - the compiler: An array cannot be passed to an external (DLL) routine -- Fix>> pass one element through a variable of its type:  one% = stamps%(i)  then  call ... (one% by ref)  then  stamps%(i) = one%
+  - right: `library 'msvcrt.dll' \ dim stamps%(3) \ one% = stamps%(2) \ call '_time32' (one% by ref) \ stamps%(2) = one% \ print stamps%(2) > 0`
+- **dim** -- no AS type: the suffix gives the type, and DIM gives the size
+  - wrong: `dim scores as integer \ print 1`
+  - the compiler: Syntax error -- Help>> there is no AS -- the type comes from the name's suffix (count% integer, name$ string, bare = real), and DIM is for arrays:  dim scores(10)
+  - right: `dim scores%(10) \ print 1`
+- **cluster** -- a CLUSTER's fields are reached with -> ; name.variable is a MODULE's variable, so the dot form is refused when the name before the dot is a declared cluster, whatever the field's suffix
+  - wrong: `cluster person: name$, age \ person.name$ = 'Ann' \ print person->name$`
+  - the compiler: Syntax error -- Help>> PERSON is a cluster -- its fields are written with ->:  PERSON->NAME$
+  - right: `cluster person: name$, age \ person->name$ = 'Ann' \ print person->name$`
+- **cluster** -- the same for a numeric field
+  - wrong: `cluster person: name$, age \ person.age = 42 \ print person->age`
+  - the compiler: Syntax error -- Help>> PERSON is a cluster -- its fields are written with ->:  PERSON->AGE
+  - right: `cluster person: name$, age \ person->age = 42 \ print person->age`
+- **collect** -- it is COLLECT CLUSTER name
+  - wrong: `cluster tally: word$, hits \ collect tally \ end collect`
+  - the compiler: Expected TABLE keyword -- Help>> EXTRACT expects TABLE name (for a cluster write  collect cluster name)
+  - right: `cluster tally: word$, hits \ collect cluster tally \ end collect`
+- **print** -- + joins strings only: separate print items with ; or wrap the number in str$()
+  - wrong: `size = 3 \ print 'size is ' + size`
+  - the compiler: Data type mismatch -- Help>> Cannot mix numbers and strings
+  - right: `size = 3 \ print 'size is '; size`
+- **input** -- a COLON separates the prompt and options from the variables
+  - wrong: `input 'Your name', name$ \ print name$`
+  - the compiler: Unrecognized keyword -- Format>> input 'prompt': variable Fix>> the : after the prompt is missing (a comma after the prompt is not accepted)
+  - right: `input 'Your name': name$ \ print name$`
+- **literals** -- digit groups are written with _ : 1_000
+  - wrong: `total = 1,000 \ print total`
+  - the compiler: Unrecognized statement -- Help>> unexpected ',' after a complete statement -- a number cannot contain a comma (write 1000 or 1_000), and two statements on one line need a \ between them
+  - right: `total = 1_000 \ print total`
+- **type** -- + - & and comparisons need ONE custom type -- a plain number goes with any, and salary * 3 is still money
+  - wrong: `type real money \ type real feet \ declare money salary \ declare feet room_width \ salary = 5000 \ room_width = 12 \ total = salary + room_width \ print total`
+  - the compiler: Declared data type mismatch -- Help>> SALARY is of type MONEY, ROOM_WIDTH is of type FEET -- + - & and comparisons need ONE type (a plain number goes with any)
+  - right: `type real money \ declare money salary, bonus \ salary = 5000 \ bonus = 300 \ total = salary + bonus \ print total`
+- **routine typed parameters** -- a custom type comes BEFORE the parameter's name: with money amount
+  - wrong: `type real money \ show_pay with amount 5 \ stop \ routine show_pay with amount money \   print amount \ end routine`
+  - the compiler: Syntax error -- Help>> the TYPE comes before the parameter's name -- write  MONEY AMOUNT
+  - right: `type real money \ show_pay with amount 5 \ stop \ routine show_pay with money amount \   print amount \ end routine`
+- **exceptions** -- an unknown exception name is a compile error: check the name
+  - wrong: `when exception in \   x = 1 \ use \   print exceptiontype('nosuchname') \ end when`
+  - the compiler: Unknown exception name -- Help>> exceptiontype('nosuchname'): no exception has that name
+  - right: `when exception in \   x = 1 \ use \   print exceptiontype('divby0') \ end when`
+- **do named** -- a named DO repeats its name on its LOOP (or END DO) line, as NEXT repeats a FOR's counter
+  - wrong: `pass_no = 0 \ do named scan \   pass_no++ \   if pass_no > 2 then exit do scan \ loop`
+  - the compiler: Invalid LOOP -- Help>> LOOP must name the open DO SCAN --  loop scan
+  - right: `pass_no = 0 \ do named scan \   pass_no++ \   if pass_no > 2 then exit do scan \ loop scan`
+- **exit do** -- a FOR loop is left by name with EXIT FOR and its counter; EXIT DO and a name is for a DO NAMED loop
+  - wrong: `for r = 1 to 3 \   for c = 1 to 3 \     if c = 2 then exit do r \   next c \ next r`
+  - the compiler: Invalid EXIT DO target -- Help>> R names a FOR loop -- write  exit for r
+  - right: `for r = 1 to 3 \   for c = 1 to 3 \     if c = 2 then exit for r \   next c \ next r`
+- **exit for** -- the name after EXIT FOR is the counter of a FOR loop (or the cluster of a FOR EACH) open around the statement
+  - wrong: `for r = 1 to 3 \   for c = 1 to 3 \     if c = 2 then exit for x \   next c \ next r`
+  - the compiler: Invalid EXIT FOR target -- Help>> EXIT FOR X does not name an open FOR or FOR EACH -- open here: C, R
+  - right: `for r = 1 to 3 \   for c = 1 to 3 \     if c = 2 then exit for r \   next c \ next r`
+- **unassigned** -- a name that is never assigned is a compile error (a typo is caught)
+  - wrong: `print totl`
+  - the compiler: Unassigned variable: TOTL
+  - right: `total = 5 \ print total`
+- **nan** -- a comparison with the literal _nan is a compile error: test with isnan()
+  - wrong: `value = _nan \ if value = _nan then print 'hole'`
+  - the compiler: Syntax error -- Help>> a comparison with _nan is always FALSE (a NaN equals nothing, itself included) -- to test for a NaN write  isnan(x)  (isfinite(x) also excludes infinities); a select case may still say  case _nan
+  - right: `value = _nan \ if isnan(value) then print 'hole'`
+- **complex** -- complex values have no order: compare abs(), real() or imag()
+  - wrong: `z = 3 + 4i \ if z > 2i then print 'big'`
+  - the compiler: Syntax error -- Help>> a complex value has no order (i squared is -1: no ordering survives it) -- compare abs(), real() or imag()
+  - right: `z = 3 + 4i \ if abs(z) > 2 then print 'big'`
+- **boolean ?** -- a ? name holds only 0 or 1 (false or true): storing the literal 5 is a compile error, and a computed value other than 0 or 1 raises NOT0OR1 at the store
+  - wrong: `ok? = 5 \ if ok? then print 'yes'`
+  - the compiler: Syntax error -- Help>> ok? is a boolean -- it holds only 0 or 1 (false or true), not 5
+  - right: `ok? = true \ if ok? then print 'yes'`
+- **maximize** -- a maximize / minimize block names its unknowns on a WHERE line
+  - wrong: `maximize profit = 3 * chairs \   subject to \     chairs <= 5 \ end maximize`
+  - the compiler: Syntax error -- Help>> maximize profit: a WHERE line naming the unknowns is required --  where benches, stools are whole  (or are decimal)
+  - right: `maximize profit = 3 * chairs \   where chairs are whole \   subject to \     chairs <= 5 \ end maximize \ print profit`
+- **string slice** -- a slice is written with [ ]: ( ) calls a function or indexes an array
+  - wrong: `text$ = 'hello' \ print text$(2:4)`
+  - the compiler: Syntax error -- Help>> a slice is written with [ ], not ( ) -- text$[start:end]; ( ) calls a function or indexes an array
+  - right: `text$ = 'hello' \ print text$[2:4]`
+- **string slice** -- the slice of a function's result, or of an array element, takes [ ] too: names$(3)[1:5]
+  - wrong: `text$ = 'hello' \ print ucase$(text$)(2:4)`
+  - the compiler: Syntax error -- Help>> a slice is written with [ ], not ( ) -- ucase$(s$)[2:4], names$(3)[1:5]; ( ) calls a function or indexes an array
+  - right: `text$ = 'hello' \ print ucase$(text$)[2:4]`
+- **array slice** -- an array slice is written with [ ] too
+  - wrong: `dim scores(5) \ fill scores with 7, 8, 9, 4, 6 \ print scores(2:3)`
+  - the compiler: Syntax error -- Help>> a slice is written with [ ], not ( ) -- scores[start:end]; ( ) calls a function or indexes an array
+  - right: `dim scores(5) \ fill scores with 7, 8, 9, 4, 6 \ print scores[2:3]`
+- **near()** -- near() needs a tolerance: the decimal places as the third argument, or significant digits by name with digits:
+  - wrong: `total = 41.6666 \ expected = 41.67 \ print near(total, expected)`
+  - the compiler: Incorrect number of arguments provided -- Help>> near() needs a tolerance: the number of decimal places as the third argument -- near(a, b, 2) -- or significant digits by name -- near(a, b, digits: 6)
+  - right: `total = 41.6666 \ expected = 41.67 \ print near(total, expected, 2)`
+- **near()** -- the decimal places are the third argument, with no name -- digits: is the one named count
+  - wrong: `total = 41.6666 \ expected = 41.67 \ print near(total, expected, places: 2)`
+  - the compiler: Syntax error -- Help>> near(): the number of decimal places is the third argument, with no name -- write near(a, b, 2)
+  - right: `total = 41.6666 \ expected = 41.67 \ print near(total, expected, 2)`
+- **near()** -- significant digits are asked for by name, digits: n; by position near() takes a, b and the decimal places
+  - wrong: `total = 41.6666 \ expected = 41.67 \ print near(total, expected, 2, 6)`
+  - the compiler: Incorrect number of arguments provided -- Help>> near() takes three values by position -- a, b and the decimal places; significant digits are named: near(a, b, digits: 6)
+  - right: `total = 41.6666 \ expected = 41.67 \ print near(total, expected, 2, digits: 6)`
+
+## Silent traps (compile clean, surprise at run time)
+
+- **print** -- ; gives a number a sign slot in front and a space after (a fraction prints with its leading 0); use str$() or sprintf$() for tight text
+  - program: `print 59 / 60 \ print 'x = '; 42; '|'`
+  - prints: ` 0.9833333333333333 \ x =  42 |`
+- **sqr()** -- sqr() is the square ROOT (sqrt() is the same function); square with ^ 2
+  - program: `print sqr(16) \ print 16 ^ 2`
+  - prints: ` 4 \  256`
+- **round()** -- round() rounds HALF-UP on magnitude (school rounding); multiply and divide round half-to-even at the 16th place
+  - program: `print round(2.5, 0); round(3.5, 0); round(-2.5, 0) \ print 2.5 * 1`
+  - prints: ` 3  4 -3 \  2.5`
+- **/** -- / is always the decimal divide, rounded at the 16th place (1 / 3 * 3 is 0.9999999999999999; divr(1, 3) is the exact fraction); REAL is exact decimal, so .1 + .2 = .3 is true
+  - program: `third = 1 / 3 \ print third * 3 \ print typeof$(third) \ print 0.1 + 0.2 = 0.3`
+  - prints: ` 0.9999999999999999 \ Name:THIRD, Dtype:Real, *Narrow*, *Rounded* \  1`
+- **contains()** -- contains / startswith / endswith / findrow are CASE-BLIND by default; exact: true makes them case-sensitive
+  - program: `print contains('Hello World', 'WORLD') \ print contains('Hello World', 'WORLD', exact: true) \ print startswith('event famine', 'EVENT ')`
+  - prints: ` 1 \  0 \  1`
+- **element$()** -- element$() trims each piece and defaults to a comma; piece$() keeps the spaces (and defaults to the line ending)
+  - program: `list$ = 'alpha, beta , gamma' \ print '['; element$(list$, 2); ']' \ print '['; piece$(list$, 2, ','); ']'`
+  - prints: `[beta] \ [ beta ]`
+- **trim$()** -- trim$ / ltrim$ / rtrim$ strip every character <= space (tab, CR, LF ...) plus DEL, not only spaces
+  - program: `text$ = 'abc ' + chr$(10) \ print len(trim$(text$)) \ print len(rtrim$(text$))`
+  - prints: ` 3 \  3`
+- **len()** -- strings are BYTES: len() counts bytes, so one UTF-8 accented letter counts 2
+  - program: `text$ = 'caf' + chr$(195) + chr$(169) \ print len(text$)`
+  - prints: ` 5`
+- **val()** -- val(text$, 0) is the safe numeric test (0 and _integer = 0 on failure); val(text$, n) picks the nth number out of text
+  - program: `print val('12abc', 0); _integer \ print val('abc', 0); _integer \ print val('$1,250.00', 1)`
+  - prints: ` 0  0 \  0  0 \  1250`
+- **_integer** -- a lookup's row is in _integer (0 = not found): read it in the NEXT statement, before anything else sets it
+  - program: `cluster parts: code$, qty \ add cluster parts \   parts->code$ = 'a1' \   parts->qty = 5 \ end add \ found = findvalue(parts->code$, 'zz', parts->qty, -1) \ print found; _integer`
+  - prints: `-1  0`
+- **findrow()** -- findrow() is case-blind, returns 0 on a miss, and a MISS leaves NO current row -- reading a field then raises
+  - program: `cluster parts: code$, qty \ add cluster parts \   parts->code$ = 'a1' \   parts->qty = 5 \ end add \ row = findrow(parts->code$, 'A1') \ print row \ row = findrow(parts->code$, 'zz') \ print row \ when exception in \   print parts->qty \ use \   print 'after a miss: '; extext$ \ end when`
+  - prints: ` 1 \  0 \ after a miss: Cluster ROW is not current`
+- **add cluster** -- inside ADD CLUSTER a bare name is an ordinary variable: a field is written cities->city$ (or ->city$, the block's cluster) or it stays empty
+  - program: `cluster cities: city$, country$ \ city$ = '' \ add cluster cities \   city$ = 'Cebu' \   cities->country$ = 'PH' \ end add \ print '['; cities->city$; '] ['; city$; ']'`
+  - prints: `[] [Cebu]`
+- **size()** -- size() is every row; the count a COLLECT kept is _extracted
+  - program: `cluster parts: code$, qty \ add cluster parts \   parts->code$ = 'a' \   parts->qty = 1 \ end add \ add cluster parts \   parts->code$ = 'b' \   parts->qty = 9 \ end add \ collect cluster parts \   include parts->qty > 5 \ end collect \ print size(parts); _extracted`
+  - prints: ` 2  1`
+- **reset cluster** -- RESET CLUSTER leaves a tombstone (size unchanged); DELETE FROM CLUSTER removes the row and size shrinks
+  - program: `cluster parts: code$, qty \ add cluster parts \   parts->code$ = 'a' \   parts->qty = 1 \ end add \ add cluster parts \   parts->code$ = 'b' \   parts->qty = 9 \ end add \ set cluster parts: row 1 \ reset cluster parts \ print size(parts) \ set cluster parts: row 1 \ delete from cluster parts \ print size(parts)`
+  - prints: ` 2 \  1`
+- **collect unique** -- UNIQUE groups first, then INCLUDE tests each group's FIRST row -- filter a unique collect only on the unique field or on _extracted
+  - program: `cluster picks: group$, item$ \ add cluster picks \   picks->group$ = 'a' \   picks->item$ = 'X' \ end add \ add cluster picks \   picks->group$ = 'b' \   picks->item$ = 'X' \ end add \ collect cluster picks: unique picks->item$ \   include picks->group$ = 'b' \ end collect \ print _extracted`
+  - prints: ` 0`
+- **for each** -- FOR EACH walks a COLLECTION: collect cluster first
+  - program: `cluster parts: code$ \ add cluster parts \   parts->code$ = 'a' \ end add \ when exception in \   for each parts \     print parts->code$ \   next parts \ use \   print 'without a collect: '; extext$ \ end when`
+  - prints: `without a collect: A COLLECT/EXTRACT must precede a FOR EACH statement`
+- **dim** -- arrays are 1-origin; element 0 is a subscript error
+  - program: `dim scores(3) \ fill scores with 7, 8, 9 \ print scores(1) \ when exception in \   print scores(0) \ use \   print extext$ \ end when`
+  - prints: ` 7 \ Subscript out of bounds`
+- **integer %** -- / on integers gives a REAL; storing it in a % variable rounds; integer overflow RAISES (option permissive wraps)
+  - program: `count% = 7 \ print count% / 2 \ half% = count% / 2 \ print half% \ when exception in \   big% = 2147483647 \   big% = big% + 1 \ use \   print extext$ \ end when`
+  - prints: ` 3.5 \  4 \ Integer overflow`
+- **max** -- max(v, 10) maps over the array, so a name not used yet becomes an ARRAY (one value an element), not the largest element -- the largest element is stats$max(v)
+  - program: `dim v(3) \ fill v with 1, 5, 3 \ biggest = max(v, 10) \ print biggest \ print stats$max(v)`
+  - prints: `10  10  10 \  5`
+- **select case** -- a SELECT CASE with no matching case and no CASE ELSE raises: always write CASE ELSE
+  - program: `size = 9 \ when exception in \   select case size \   case 1 \     print 'one' \   end select \ use \   print 'no case matched: '; extext$ \ end when`
+  - prints: `no case matched: SELECT found no matching CASE`
+- **str$()** -- str$() has no padding: no sign slot and no trailing space (a fraction keeps its leading 0)
+  - program: `print '['; str$(42); ']' \ print '['; str$(-0.5); ']'`
+  - prints: `[42] \ [-0.5]`
+- **sprintf$()** -- %m comma-groups a number, %.2m adds two decimals, %p pluralizes by the count before it
+  - program: `print sprintf$('%m', 1234567) \ print sprintf$('%.2m', 1234.5) \ print sprintf$('% %p', 1, 'child'); ', '; sprintf$('% %p', 3, 'child')`
+  - prints: `1,234,567 \ 1,234.50 \ 1 child, 3 children`
+- **date$()** -- date$ is YYYYMMDD text; days() turns a date into a day number, and takes ISO text too
+  - program: `print days('2026-09-20') - days('2026-01-01') \ print len(date$)`
+  - prints: ` 262 \  8`
+- **when exception** -- after a USE block the program continues after END WHEN; a handler that tests one extype swallows every other exception
+  - program: `zero = 0 \ when exception in \   x = 1 / zero \ use \   print extype; ' '; extext$ \   print exceptionname$(extype) \ end when \ print 'the program goes on'`
+  - prints: ` 3001  Division by zero \ DIVBY0 \ the program goes on`
+- **constant folding** -- a LITERAL 1 / 0 is folded at compile time and is a COMPILE error; a run-time exception needs a run-time value
+  - program: `zero = 0 \ when exception in \   x = 10 / zero \ use \   print 'runtime: '; extext$ \ end when`
+  - prints: `runtime: Division by zero`
+- **freeze** -- only a DECLARE FREEZABLE variable can be frozen; a write to a frozen variable raises and changes nothing
+  - program: `declare freezable rate \ rate = 0.12 \ freeze rate \ when exception in \   rate = 0.5 \ use \   print extext$; ' -- rate is still '; rate \ end when`
+  - prints: `Cannot assign into this variable -- rate is still  0.12`
+- **pos()** -- pos() is 1-origin and 0 = not found; a NEGATIVE start searches right to left from that many characters before the end
+  - program: `print pos('xaxxxxaxxx', 'a') \ print pos('xaxxxxaxxx', 'a', -3) \ print pos('abc', 'z')`
+  - prints: ` 2 \  7 \  0`
+- **change$() vs replace$()** -- change$() translates CHARACTERS one for one; replace$() replaces a found text (and its find side is a pattern)
+  - program: `print change$('banana', 'an', 'AN') \ print replace$('banana', 'an=AN')`
+  - prints: `bANANA \ bANANa`
+- **filter()** -- a comparison of an array is a 1/0 mask: filter() keeps the elements, stats$sum() of the mask counts them
+  - program: `dim v(5) \ fill v with 3, 60, 7, 80, 9 \ print filter(v, v > 50) \ print stats$sum(v > 50)`
+  - prints: `60  80 \  2`
+- **expandable arrays** -- dim x(*) is expandable: x(*) = value appends, size() is the count so far
+  - program: `dim names$(*) \ names$(*) = 'ann' \ names$(*) = 'bob' \ print size(names$); ' '; names$(2)`
+  - prints: ` 2  bob`
+- **if** -- IF size THEN compiles -- and RAISES at run time unless size holds exactly 0 or 1: there is no implicit truthiness, write the comparison
+  - program: `size = 3 \ when exception in \   if size then print 'yes' \ use \   print extext$ \ end when \ if size <> 0 then print 'compare explicitly'`
+  - prints: `Logical values must be either 0 (false) or 1 (true) \ compare explicitly`
+- **and / or** -- AND and OR work out BOTH sides, always: a guard on the left never protects the right (a divide, a findrow() that moves the current row, a routine call); guard with an IF of its own, or choose with the IF expression (only the chosen value is worked out); on plain numbers AND / OR work bit by bit (6 and 3 is 2, 1 or 2 is 3)
+  - program: `divisor = 0 \ when exception in \   if divisor <> 0 and 10 / divisor > 1 then print 'big' \ use \   print 'the guard on the left did not stop the divide: '; extext$ \ end when \ if divisor <> 0 then \   if 10 / divisor > 1 then print 'big' \ end if \ print 'an IF of its own guards it' \ share = if divisor = 0 then 0 else 10 / divisor \ print 'the IF expression works out only the chosen value:'; share \ print 6 and 3; 1 or 2; 2 and 1`
+  - prints: `the guard on the left did not stop the divide: Division by zero \ an IF of its own guards it \ the IF expression works out only the chosen value: 0 \  2  3  0`
+- **module** -- name.variable is a MODULE's variable: person.name$ is NAME$ of module PERSON, read and written from outside; a CLUSTER's field is person->name$
+  - program: `person.name$ = 'Sally' \ person.age = 42 \ person.show_them \ print 'outside: '; person.name$; person.age \ stop \ module person \   routine show_them \     print 'inside : '; name$; age \   end routine \ end module`
+  - prints: `inside : Sally 42 \ outside: Sally 42`
+- **strings** -- a doubled quote inside a string is one quote, or use the other quote character; there are no backslash escapes -- chr$(9), chr$(10)
+  - program: `print 'it''s'; ' '; len('it''s') \ print "it's" \ print 'tab['; chr$(9); ']'`
+  - prints: `it's  4 \ it's \ tab[	]`
+- **operators** -- != is accepted in mid-line and means <>; a ! at the START of a line is a comment
+  - program: `size = 3 \ if size != 4 then print 'not four' \ if size <> 4 then print 'the same test'`
+  - prints: `not four \ the same test`
+- **function form** -- a routine with ONE returning parameter is callable as a function; the first argument may be positional, the rest are named; omitted parameters take their defaults
+  - program: `total = add_fee(100) + add_fee(base = 50, surcharge = 1) \ print total \ stop \ routine add_fee with base, surcharge = 10, returning fee \   fee = base + surcharge \ end routine`
+  - prints: ` 161`
+- **near()** -- a places count is an ABSOLUTE tolerance: two rates 0.005 apart agree to 2 places; the digits test never passes across zero or a change of sign -- a places count does; it counts digit positions, so its tolerance steps at a power of ten
+  - program: `print near(0.0525, 0.0575, 2) \ print near(0.001, -0.001, 2); near(0.001, -0.001, digits: 2) \ print near(1.00001, 1.00003, digits: 5); near(0.99997, 0.99999, digits: 5)`
+  - prints: ` 1 \  1  0 \  1  0`
+
+## Function names from other languages
+
+- `length()` -> len()
+- `strlen()` -> len()
+- `len$()` -> len()
+- `count()` -> size()
+- `substr()` -> mid$()  or  s$[start:end]
+- `substring()` -> mid$()  or  s$[start:end]
+- `mid()` -> mid$()
+- `left()` -> mid$(s$, 1, n)  or  s$[1:n]
+- `right()` -> s$[len(s$) - n + 1:len(s$)]
+- `upper()` -> ucase$()
+- `toupper()` -> ucase$()
+- `upcase()` -> ucase$()
+- `uppercase()` -> ucase$()
+- `ucase()` -> ucase$()
+- `lower()` -> lcase$()
+- `tolower()` -> lcase$()
+- `downcase()` -> lcase$()
+- `lowercase()` -> lcase$()
+- `lcase()` -> lcase$()
+- `strip()` -> trim$()
+- `trim()` -> trim$()
+- `ltrim()` -> ltrim$()
+- `rtrim()` -> rtrim$()
+- `random()` -> rnd()
+- `rand()` -> rnd()
+- `randint()` -> rnd()
+- `str()` -> str$()
+- `tostring()` -> str$()
+- `string()` -> str$()
+- `parseint()` -> val()
+- `parsefloat()` -> val()
+- `tonumber()` -> val()
+- `number()` -> val()
+- `float()` -> val()
+- `atoi()` -> val()
+- `atof()` -> val()
+- `index()` -> pos()
+- `indexof()` -> pos()
+- `instr()` -> pos()
+- `strpos()` -> pos()
+- `find()` -> pos()
+- `replace()` -> replace$()
+- `split()` -> element$()  or  piece$()
+- `chr()` -> chr$()
+- `char()` -> chr$()
+- `ord()` -> ascii()
+- `asc()` -> ascii()
+- `pow()` -> the ^ operator
+- `power()` -> the ^ operator
+- `square()` -> x * x  or  x ^ 2
+- `format()` -> sprintf$()
+- `printf()` -> print  (or sprintf$())
+- `sprintf()` -> sprintf$()
+- `now()` -> fulltime$
+- `today()` -> date$
+- `typeof()` -> typeof$()
+- `sleep()` -> the DELAY statement:  delay 2
+- `wait()` -> the DELAY statement:  delay 2
+- `input()` -> the INPUT statement:  input 'prompt': x$
+- `readline()` -> the LINE INPUT statement:  line input 'prompt': x$
+- `gets()` -> the LINE INPUT statement:  line input 'prompt': x$
+- `isnumeric()` -> val(x$, 0)  then test  _integer
+
+## Statement keywords from other languages
+
+- `wend` -- Unrecognized statement -- Help>> there is no WEND -- a loop is  do while cond ... loop
+- `endwhile` -- Unrecognized statement -- Help>> there is no ENDWHILE -- blocks end with  end if / end select / loop / next i / end routine
+- `endfor` -- Unrecognized statement -- Help>> there is no ENDFOR -- blocks end with  end if / end select / loop / next i / end routine
+- `endsub` -- Unrecognized statement -- Help>> there is no ENDSUB -- a routine ends with  end routine
+- `endfunction` -- Unrecognized statement -- Help>> there is no ENDFUNCTION -- a routine ends with  end routine
+- `endproc` -- Unrecognized statement -- Help>> there is no ENDPROC -- a routine ends with  end routine
+- `endloop` -- Unrecognized statement -- Help>> there is no ENDLOOP -- a DO loop ends with  loop
+- `fi` -- Unrecognized statement -- Help>> there is no FI -- a block IF ends with  end if
+- `done` -- Unrecognized statement -- Help>> there is no DONE -- blocks end with  end if / loop / next i
+- `esac` -- Unrecognized statement -- Help>> there is no ESAC -- a SELECT CASE ends with  end select
+- `function` -- Unrecognized statement -- Help>> there is no FUNCTION -- write  routine do_it with a, b, returning total ... end routine  and call it as  total = do_it(a = 1, b = 2)
+- `def` -- Unrecognized statement -- Help>> there is no DEF -- write  routine do_it with a, b, returning total ... end routine  and call it as  total = do_it(a = 1, b = 2)
+- `fn` -- Unrecognized statement -- Help>> there is no FN -- write  routine do_it with a, b, returning total ... end routine  and call it as  total = do_it(a = 1, b = 2)
+- `func` -- Unrecognized statement -- Help>> there is no FUNC -- write  routine do_it with a, b, returning total ... end routine  and call it as  total = do_it(a = 1, b = 2)
+- `sub` -- Unrecognized statement -- Help>> there is no SUB -- write  routine do_it ... end routine  and call it by name:  do_it
+- `procedure` -- Unrecognized statement -- Help>> there is no PROCEDURE -- write  routine do_it ... end routine  and call it by name:  do_it
+- `proc` -- Unrecognized statement -- Help>> there is no PROC -- write  routine do_it ... end routine  and call it by name:  do_it
+- `method` -- Unrecognized statement -- Help>> there is no METHOD -- write  routine do_it ... end routine  and call it by name:  do_it
+- `var` -- Unrecognized statement -- Help>> there are no type declarations -- the name's suffix gives the type: count% integer, name$ string, ok? boolean, bare = real; just assign:  count% = 0
+- `int` -- Unrecognized statement -- Help>> there are no type declarations -- the name's suffix gives the type: count% integer, name$ string, ok? boolean, bare = real; just assign:  count% = 0
+- `integer` -- Unrecognized statement -- Help>> there are no type declarations -- the name's suffix gives the type: count% integer, name$ string, ok? boolean, bare = real; just assign:  count% = 0
+- `float` -- Unrecognized statement -- Help>> there are no type declarations -- the name's suffix gives the type: count% integer, name$ string, ok? boolean, bare = real; just assign:  total = 0
+- `double` -- Unrecognized statement -- Help>> there are no type declarations -- the name's suffix gives the type: count% integer, name$ string, ok? boolean, bare = real; just assign:  total = 0
+- `long` -- Unrecognized statement -- Help>> there are no type declarations -- the name's suffix gives the type: count% integer, name$ string, ok? boolean, bare = real; just assign:  count% = 0
+- `bool` -- Unrecognized statement -- Help>> there are no type declarations -- a boolean is a name that ends in ?:  ok? = true
+- `boolean` -- Unrecognized statement -- Help>> there are no type declarations -- a boolean is a name that ends in ?:  ok? = true
+- `char` -- Unrecognized statement -- Help>> there are no type declarations -- a string is a name that ends in $:  ch$ = 'a'
+- `void` -- Unrecognized statement -- Help>> there is no VOID -- a routine that returns nothing is  routine do_it ... end routine
+- `import` -- Unrecognized statement -- Help>> to include another source file write  %include '@file.spinc'
+- `include` -- INCLUDE, EXCLUDE, or SORT outside COLLECT/EXTRACT block at MAIN.2
+- `require` -- Unrecognized statement -- Help>> to include another source file write  %include '@file.spinc'
+- `using` -- Unrecognized statement -- Help>> to include another source file write  %include '@file.spinc'
+- `namespace` -- Unrecognized statement -- Help>> to include another source file write  %include '@file.spinc'; a namespace is  module name ... end module
+- `package` -- Unrecognized statement -- Help>> to include another source file write  %include '@file.spinc'; a namespace is  module name ... end module
+- `class` -- Unrecognized statement -- Help>> there are no classes -- a record is a cluster:  cluster person: name$, age  then  person->name$ = 'Ann'
+- `struct` -- Expected USING keyword -- Format>> cluster name USING template Fix>> the USING is missing
+- `this` -- Unrecognized statement -- Help>> there is no THIS -- a record is a cluster:  cluster person: name$, age  then  person->name$ = 'Ann'
+- `self` -- Unrecognized statement -- Help>> there is no SELF -- a record is a cluster:  cluster person: name$, age  then  person->name$ = 'Ann'
+- `interface` -- Unrecognized statement -- Help>> there are no classes -- a record is a cluster:  cluster person: name$, age
+- `null` -- Unrecognized statement -- Help>> there is no null -- a variable starts out as 0 or an empty string
+- `nil` -- Unrecognized statement -- Help>> there is no nil -- a variable starts out as 0 or an empty string
+- `none` -- Unrecognized statement -- Help>> there is no None -- a variable starts out as 0 or an empty string
+- `undefined` -- Unrecognized statement -- Help>> there is no undefined -- a variable starts out as 0 or an empty string
+- `echo` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  -- there is no ECHO
+- `println` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  -- there is no PRINTLN
+- `printf` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  (formatting: sprintf$) -- there is no PRINTF
+- `puts` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  -- there is no PUTS
+- `console` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  -- there is no CONSOLE
+- `writeln` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  -- there is no WRITELN
+- `write` -- Syntax error -- Help>> there is no WRITE statement -- print #channel: writes to a file, cluster output writes a cluster
+- `display` -- Unrecognized statement -- Help>> output is  print expr[, expr...]  -- there is no DISPLAY
+- `try` -- Unrecognized statement -- Help>> exceptions are  when exception in ... use ... end when  and  cause exception exceptiontype('name')  -- there is no TRY
+- `catch` -- Unrecognized statement -- Help>> exceptions are  when exception in ... use ... end when  -- there is no CATCH
+- `except` -- Unrecognized statement -- Help>> exceptions are  when exception in ... use ... end when  -- there is no EXCEPT
+- `finally` -- Unrecognized statement -- Help>> exceptions are  when exception in ... use ... end when  -- there is no FINALLY
+- `throw` -- Unrecognized statement -- Help>> to raise an exception write  cause exception exceptiontype('name')  -- there is no THROW
+- `raise` -- Unrecognized statement -- Help>> to raise an exception write  cause exception exceptiontype('name')  -- there is no RAISE
+- `lambda` -- Unrecognized statement -- Help>> there are no lambdas -- write a routine and call it in function form:  y = calc_it(x = 1)
+- `then` -- Unrecognized statement -- Help>> THEN belongs on the IF line:  if cond then
+- `elif` -- Unrecognized statement -- Help>> ELSEIF is one word:  elseif cond then
+- `elsif` -- Unrecognized statement -- Help>> ELSEIF is one word:  elseif cond then
+- `unless` -- Unrecognized statement -- Help>> there is no UNLESS -- write  if not cond then
+- `main` -- Unrecognized statement -- Help>> there is no MAIN -- a program starts at its first statement (optionally  program name  on line 1)
+- `begin` -- Unrecognized statement -- Help>> there is no BEGIN -- a program starts at its first statement (optionally  program name  on line 1)
+- `foreach` -- Unrecognized statement -- Help>> write  for each cluster_name ... next cluster_name
+

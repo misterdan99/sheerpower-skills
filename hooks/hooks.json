@@ -1,0 +1,98 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "${CLAUDE_PLUGIN_ROOT}/hooks/session_start.ps1"],
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "echo \"$(sh \"${CLAUDE_PLUGIN_ROOT}/hooks/session_start.sh\")\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "matcher": "sheerpower:run",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "${CLAUDE_PLUGIN_ROOT}/hooks/run_now.ps1"],
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "echo \"$(sh \"${CLAUDE_PLUGIN_ROOT}/hooks/run_now.sh\")\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(**/*.spsrc)",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "${CLAUDE_PLUGIN_ROOT}/hooks/validate.ps1"],
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Write(**/*.spsrc)",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "${CLAUDE_PLUGIN_ROOT}/hooks/validate.ps1"],
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Edit(**/*.spinc)",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "${CLAUDE_PLUGIN_ROOT}/hooks/validate.ps1"],
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Write(**/*.spinc)",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", "${CLAUDE_PLUGIN_ROOT}/hooks/validate.ps1"],
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Edit(**/*.spsrc)",
+            "command": "echo \"$(sh \"${CLAUDE_PLUGIN_ROOT}/hooks/validate.sh\")\"",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Write(**/*.spsrc)",
+            "command": "echo \"$(sh \"${CLAUDE_PLUGIN_ROOT}/hooks/validate.sh\")\"",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Edit(**/*.spinc)",
+            "command": "echo \"$(sh \"${CLAUDE_PLUGIN_ROOT}/hooks/validate.sh\")\"",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Write(**/*.spinc)",
+            "command": "echo \"$(sh \"${CLAUDE_PLUGIN_ROOT}/hooks/validate.sh\")\"",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}
